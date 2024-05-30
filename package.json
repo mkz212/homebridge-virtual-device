@@ -1,5 +1,4 @@
 {
-  "private": true,
   "displayName": "Homebridge Virtual Device",
   "name": "homebridge-virtual-device",
   "version": "1.0.0",
@@ -8,7 +7,7 @@
   "type": "module",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/mkz212/homebridge-virtual-devices.git"
+    "url": "https://github.com/mkz212/homebridge-virtual-devices.git"
   },
   "bugs": {
     "url": "https://github.com/mkz212/homebridge-virtual-devices/issues"
@@ -25,7 +24,14 @@
     "prepublishOnly": "npm run lint && npm run build"
   },
   "keywords": [
-    "homebridge-plugin"
+    "homebridge-plugin",
+    "virtual",
+    "virtual device",
+    "device",
+    "devices",
+    "dummy switch",
+    "delay switch",
+    "automation"
   ],
   "devDependencies": {
     "@types/node": "^20.12.12",
