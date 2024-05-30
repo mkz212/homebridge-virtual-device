@@ -12,6 +12,7 @@
   "bugs": {
     "url": "https://github.com/mkz212/homebridge-virtual-device/issues"
   },
+  "homepage": "https://github.com/mkz212/homebridge-virtual-device",
   "engines": {
     "node": "^18.17.0 || ^20.9.0",
     "homebridge": "^1.8.0"
