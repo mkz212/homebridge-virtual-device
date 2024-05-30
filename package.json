@@ -1,17 +1,17 @@
 {
   "private": true,
-  "displayName": "Plugin Name",
-  "name": "homebridge-plugin-name",
+  "displayName": "Homebridge Virtual Device",
+  "name": "homebridge-virtual-device",
   "version": "1.0.0",
-  "description": "A short description about what your plugin does.",
+  "description": "Virtual devices like Switch, Dimmer etc.",
   "license": "Apache-2.0",
   "type": "module",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/USERNAME/GITHUB_PROJECT_NAME.git"
+    "url": "git+https://github.com/mkz212/homebridge-virtual-devices.git"
   },
   "bugs": {
-    "url": "https://github.com/USERNAME/GITHUB_PROJECT_NAME/issues"
+    "url": "https://github.com/mkz212/homebridge-virtual-devices/issues"
   },
   "engines": {
     "node": "^18.17.0 || ^20.9.0",
