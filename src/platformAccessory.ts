@@ -20,8 +20,8 @@ export class VirtualDeviceAccessory {
   };
 
   constructor(
-    private readonly platform: ExampleHomebridgePlatform,
-    private readonly accessory: PlatformAccessory,
+    private readonly platform: VirtualDevicePlatform,
+    private readonly accessory: VirtualDeviceAccessory,
   ) {
 
     // set accessory information
