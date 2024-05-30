@@ -1,5 +1,5 @@
 {
-  "pluginAlias": "Homebridge Virtual Device",
+  "pluginAlias": "Virtual Device",
   "pluginType": "platform",
   "singular": true,
   "author": "mkz212",
