@@ -1,5 +1,5 @@
 {
-  "pluginAlias": "ExampleHomebridgePlugin",
+  "pluginAlias": "Homebridge Virtual Device",
   "pluginType": "platform",
   "singular": true,
   "schema": {
