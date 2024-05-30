@@ -1,13 +1,13 @@
 import { Service, PlatformAccessory, CharacteristicValue } from 'homebridge';
 
-import { ExampleHomebridgePlatform } from './platform';
+import { VirtualDevicePlatform } from './platform';
 
 /**
  * Platform Accessory
  * An instance of this class is created for each accessory your platform registers
  * Each accessory may expose multiple services of different service types.
  */
-export class ExamplePlatformAccessory {
+export class VirtualDeviceAccessory {
   private service: Service;
 
   /**
