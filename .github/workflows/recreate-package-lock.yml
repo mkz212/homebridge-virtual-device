@@ -27,7 +27,6 @@ jobs:
         run: |
           git config user.email "72648264+github-actions[bot]@users.noreply.github.com"
           git config user.name "GitHub Actions"
-          git status
     
       - name: NPM
         env:
@@ -40,11 +39,9 @@ jobs:
       # Commit changes
       - name: Commit
         run: |
-          git status
-          git add "package.json"
-          git add "package-lock.json"
+          git add "package.json" -f
+          git add "package-lock.json" -f
           git commit -m "recreate package-lock.json"
-          git status
 
       # Push git repository changes
       - name: Push changes to repository
@@ -52,4 +49,3 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
           git push origin HEAD:master && git push --tags
-          git status
