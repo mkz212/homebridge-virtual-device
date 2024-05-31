@@ -45,7 +45,7 @@ jobs:
         run: |
           git add "package.json" -f
           git add "package-lock.json" -f
-          git commit -am "recreate package-lock.json" || true
+          git commit -am "recreate package-lock.json"
 
       # Push git repository changes
       - name: Push changes to repository
