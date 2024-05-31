@@ -41,7 +41,7 @@ jobs:
         run: |
           git add "package.json"
           git add "package-lock.json"
-          git commit -a -m "recreate package-lock.json"
+          git commit -m "recreate package-lock.json" --allow-empty
 
       # Push git repository changes
       - name: Push changes to repository
