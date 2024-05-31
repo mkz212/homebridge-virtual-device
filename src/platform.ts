@@ -1,7 +1,7 @@
 import { API, DynamicPlatformPlugin, Logging, PlatformAccessory, PlatformConfig, Service, Characteristic } from 'homebridge';
 
-import { PLATFORM_NAME, PLUGIN_NAME } from './settings';
-import { VirtualDeviceAccessory } from './platformAccessory';
+import { PLATFORM_NAME, PLUGIN_NAME } from './settings.js';
+import { VirtualDeviceAccessory } from './platformAccessory.js';
 
 /**
  * HomebridgePlatform
