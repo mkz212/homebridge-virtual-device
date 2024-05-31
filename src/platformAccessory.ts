@@ -1,6 +1,6 @@
 import { Service, PlatformAccessory, CharacteristicValue } from 'homebridge';
 
-import { VirtualDevicePlatform } from './platform';
+import { VirtualDevicePlatform } from './platform.js';
 
 /**
  * Platform Accessory
