@@ -13,7 +13,7 @@ You can create virtual devices (like switch, dimmer, etc.) what is useful in Hom
 
 ## Install plugin
 
-This plugin can be easily installed and configured through Homebridge UI or via [NPM](https://www.npmjs.com/package/homebridge-virtual-device) "globally" by typing:
+This plugin can be easily installed through Homebridge UI or via [NPM](https://www.npmjs.com/package/homebridge-virtual-device) "globally" by typing:
 
     npm install -g homebridge-virtual-device
 
@@ -26,15 +26,13 @@ Basic settings (required):
 {
   "platforms": [
     {
-        "platform": "Homebridge Virtual Plugin",
-        "name": "Homebridge Virtual Plugin"
+        "platform": "Homebridge Virtual Plugin"
     }
   ]
 }
 ```
 
 - `platform` (string): Tells Homebridge which platform this config belongs to. Leave as is.
-- `name` (string): Name of the plugin displayed in Homebridge log and as plugin bridge name. 
 
 ## Troubleshooting
 
@@ -51,10 +49,10 @@ Basic settings (required):
 - Contribute with your own bug fixes, code clean-ups, or additional features - [Pull Request](https://github.com/mkz212/homebridge-virtual-device/pulls).
 
 ## Acknowledgements
-- Thanks to the team behind Homebridge. Your efforts do not go unnoticed.
+Thanks to the team behind Homebridge. Your efforts do not go unnoticed.
 
 ## Disclaimer
-- Despite the efforts made, the operation of the plugin is without any guarantees and at your own risk.
+Despite the efforts made, the operation of the plugin is without any guarantees and at your own risk.
 
 
  
