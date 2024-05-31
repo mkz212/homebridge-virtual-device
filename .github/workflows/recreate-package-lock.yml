@@ -16,7 +16,6 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
         with:
-          fetch-depth: 0
           token: ${{ secrets.PAT }}
 
       # Setup Node
@@ -46,7 +45,7 @@ jobs:
         run: |
           git add "package.json" -f
           git add "package-lock.json" -f
-          git commit -am "recreate package-lock.json"
+          git commit -am "recreate package-lock.json" || true
 
       # Push git repository changes
       - name: Push changes to repository
