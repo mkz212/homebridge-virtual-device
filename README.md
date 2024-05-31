@@ -26,7 +26,17 @@ Basic settings (required):
 {
   "platforms": [
     {
-        "platform": "Homebridge Virtual Plugin"
+      "platform": "Homebridge Virtual Plugin",
+      "devices": [
+        {
+          "name": "Device 1",
+          "type": "switch"
+        },
+        {
+          "name": "Device 2",
+          "type": "dimmer"
+        }
+      ]
     }
   ]
 }
