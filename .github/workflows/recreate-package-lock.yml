@@ -32,6 +32,7 @@ jobs:
         env:
           NODE_AUTH_TOKEN: ${{secrets.npm_token}}
         run: |
+          rm -rf .git
           rm package-lock.json
           npm cache clean --force
           npm install
@@ -41,11 +42,11 @@ jobs:
         run: |
           git add "package.json"
           git add "package-lock.json"
-          git commit -m "recreate package-lock.json" --allow-empty
+          git commit -m "recreate package-lock.json"
 
       # Push git repository changes
       - name: Push changes to repository
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
-          git push origin HEAD:master --force && git push --tags
+          git push origin HEAD:master && git push --tags
