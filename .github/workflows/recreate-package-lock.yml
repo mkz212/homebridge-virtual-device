@@ -11,12 +11,15 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Check out repository
+
+      # Checkout repository
+      - name: Checkout repository
         uses: actions/checkout@v4
         with:
           token: ${{ secrets.PAT }}
 
-      - name: Set up Node
+      # Setup Node
+      - name: Setup Node
         uses: actions/setup-node@v4
         with:
           node-version: '20.x'
@@ -27,9 +30,8 @@ jobs:
         run: |
           git config user.email "72648264+github-actions[bot]@users.noreply.github.com"
           git config user.name "GitHub Actions"
-          git add "package.json" -f
-          git add "package-lock.json" -f
-    
+
+      # NPM
       - name: NPM
         env:
           NODE_AUTH_TOKEN: ${{secrets.npm_token}}
@@ -39,8 +41,10 @@ jobs:
           npm install
 
       # Commit changes
-      - name: Commit
+      - name: Add files and Commit
         run: |
+          git add "package.json" -f
+          git add "package-lock.json" -f
           git commit -am "recreate package-lock.json"
 
       # Push git repository changes
