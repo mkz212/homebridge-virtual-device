@@ -43,6 +43,8 @@ Basic settings (required):
 ```
 
 - `platform` (string): Tells Homebridge which platform this config belongs to. Leave as is.
+- `name` (string): Name of device, as it will display in HomeKit.
+- `type` (string): Device type, like switch, dimmer, etc.
 
 ## Troubleshooting
 
