@@ -27,12 +27,17 @@
   },
   "keywords": [
     "homebridge-plugin",
+    "plugin",
+    "homebridge",
     "virtual",
     "virtual device",
+    "virtual devices",
     "device",
     "devices",
+    "dummy",
     "dummy switch",
     "delay switch",
+    "switch",
     "automation"
   ],
   "devDependencies": {
