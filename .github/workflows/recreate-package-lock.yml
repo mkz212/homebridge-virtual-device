@@ -28,6 +28,12 @@ jobs:
           git config user.email "72648264+github-actions[bot]@users.noreply.github.com"
           git config user.name "GitHub Actions"
 
+      # Commit changes
+      - name: Commit
+        run: |
+          git add "package.json"
+          git add "package-lock.json"
+          git commit -m "recreate package-lock.json"
     
       - name: NPM
         env:
@@ -36,13 +42,6 @@ jobs:
           rm package-lock.json
           npm cache clean --force
           npm install
-
-      # Commit changes
-      - name: Commit
-        run: |
-          git add "package.json"
-          git add "package-lock.json"
-          git commit -m "recreate package-lock.json"
 
       # Push git repository changes
       - name: Push changes to repository
