@@ -49,7 +49,7 @@ Basic settings (required):
 - Contribute with your own bug fixes, code clean-ups, or additional features - [Pull Request](https://github.com/mkz212/homebridge-virtual-device/pulls).
 
 ## Acknowledgements
-Thanks to the team behind Homebridge. Your efforts do not go unnoticed.
+Thanks to the team behind Homebridge, your efforts do not go unnoticed.
 
 ## Disclaimer
 Despite the efforts made, the operation of the plugin is without any guarantees and at your own risk.
