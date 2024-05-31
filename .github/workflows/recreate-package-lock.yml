@@ -43,10 +43,10 @@ jobs:
       # Commit changes
       - name: Add files and Commit
         run: |
-          git add "package.json" -f
-          git add "package-lock.json" -f
+          git add package.json -f
+          git add package-lock.json -f
           git diff --staged
-          git commit -am "recreate package-lock.json"
+          git commit -m "recreate package-lock.json"
 
       # Push git repository changes
       - name: Push changes to repository
