@@ -39,8 +39,8 @@ jobs:
       # Commit changes
       - name: Commit
         run: |
-          git add "package.json" -f
-          git add "package-lock.json" -f
+          git add origin "package.json" -f
+          git add origin "package-lock.json" -f
           git commit -am "recreate package-lock.json"
 
       # Push git repository changes
@@ -48,4 +48,4 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
-          git push origin HEAD:master && git push --tags
+          git push -u origin master && git push --tags
