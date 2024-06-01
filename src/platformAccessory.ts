@@ -16,7 +16,9 @@ export class VirtualDeviceAccessory {
    */
   private states = {
     On: false,
-    Brightness: 100,
+    Brightness: 0,
+    CurrentPosition: 0,
+    TargetPosition: 0,
   };
 
   devConfig;
@@ -38,14 +40,12 @@ export class VirtualDeviceAccessory {
 
 
     // set device type
-    if (this.devConfig.type === 'switch') {
-      // get the Switch service if it exists, otherwise create a new Switch service
-      // you can create multiple services for each accessory
-      this.service = this.accessory.getService(this.platform.Service.Switch) || this.accessory.addService(this.platform.Service.Switch);
-    } else {
-      // get the LightBulb service if it exists, otherwise create a new LightBulb service
-      // you can create multiple services for each accessory
+    if (this.devConfig.type === 'dimmer') {
       this.service = this.accessory.getService(this.platform.Service.Lightbulb) || this.accessory.addService(this.platform.Service.Lightbulb);
+    } else if (this.devConfig.type === 'blind') {
+      this.service = this.accessory.getService(this.platform.Service.WindowCovering) || this.accessory.addService(this.platform.Service.WindowCovering);
+    } else {
+      this.service = this.accessory.getService(this.platform.Service.Switch) || this.accessory.addService(this.platform.Service.Switch);
     }
 
     // set the service name, this is what is displayed as the default name on the Home app
@@ -61,10 +61,16 @@ export class VirtualDeviceAccessory {
       .onSet(this.setOn.bind(this))                // SET - bind to the `setOn` method below
       .onGet(this.getOn.bind(this));               // GET - bind to the `getOn` method below
 
-    if (this.devConfig.type !== 'switch') {
+    if (this.devConfig.type === 'dimmer') {
       // register handlers for the Brightness Characteristic
       this.service.getCharacteristic(this.platform.Characteristic.Brightness)
-        .onSet(this.setBrightness.bind(this));       // SET - bind to the 'setBrightness` method below
+        .onSet(this.setValue.bind(this));       // SET - bind to the 'setValue` method below
+    }
+
+    if (this.devConfig.type === 'blind') {
+      // register handlers for the Position Characteristic
+      this.service.getCharacteristic(this.platform.Characteristic.TargetPosition)
+        .onSet(this.setValue.bind(this));       // SET - bind to the 'setValue` method below
     }
 
     /**
@@ -153,9 +159,14 @@ export class VirtualDeviceAccessory {
    * Handle "SET" requests from HomeKit
    * These are sent when the user changes the state of an accessory, for example, changing the Brightness
    */
-  async setBrightness(value: CharacteristicValue) {
-    // implement your own code to set the brightness
-    this.states.Brightness = value as number;
+  async setValue(value: CharacteristicValue) {
+
+    if (this.devConfig.type === 'dimmer') {
+      this.states.Brightness = value as number;
+    } else if (this.devConfig.type === 'blind') {
+      this.states.CurrentPosition = value as number;
+      this.states.TargetPosition = value as number;
+    }
 
     this.platform.log.info(`[${this.accessory.context.device.name}]: ${value}%`);
   }
@@ -164,25 +175,21 @@ export class VirtualDeviceAccessory {
     if (this.devConfig.sensor === 'motion') {
       this.sensor.updateCharacteristic(this.platform.Characteristic.MotionDetected, true);
       setTimeout(() => {
-        // push the new value to HomeKit
         this.sensor.updateCharacteristic(this.platform.Characteristic.MotionDetected, false);
       }, 3000);
     } else if (this.devConfig.sensor === 'contact') {
       this.sensor.updateCharacteristic(this.platform.Characteristic.ContactSensorState, true);
       setTimeout(() => {
-        // push the new value to HomeKit
         this.sensor.updateCharacteristic(this.platform.Characteristic.ContactSensorState, false);
       }, 3000);
     } else if (this.devConfig.sensor === 'occupancy') {
       this.sensor.updateCharacteristic(this.platform.Characteristic.OccupancyDetected, true);
       setTimeout(() => {
-        // push the new value to HomeKit
         this.sensor.updateCharacteristic(this.platform.Characteristic.OccupancyDetected, false);
       }, 3000);
     } else if (this.devConfig.sensor === 'leak') {
       this.sensor.updateCharacteristic(this.platform.Characteristic.LeakDetected, true);
       setTimeout(() => {
-        // push the new value to HomeKit
         this.sensor.updateCharacteristic(this.platform.Characteristic.LeakDetected, false);
       }, 3000);
     }

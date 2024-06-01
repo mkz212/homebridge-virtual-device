@@ -35,6 +35,12 @@
                   "enum": [
                     "dimmer"
                   ]
+                },
+                {
+                  "title": "Blind",
+                  "enum": [
+                    "blind"
+                  ]
                 }
               ]
             },
