@@ -75,8 +75,6 @@ export class VirtualDeviceAccessory {
     this.motionSensor = this.accessory.getService('Motion Sensor One Name') ||
       this.accessory.addService(this.platform.Service.MotionSensor, 'Motion Sensor One Name', 'YourUniqueIdentifier-1');
 
-    
-
   }
 
   /**
@@ -91,7 +89,7 @@ export class VirtualDeviceAccessory {
 
     // triger motion sensor
     if (!value) {
-      this.setMotion()
+      this.setMotion();
     }
   }
 
