@@ -19,7 +19,8 @@ export class VirtualDeviceAccessory {
     Brightness: 100,
   };
 
-  motionSensor;
+  sensor;
+  devConfig;
 
   constructor(
     private readonly platform: VirtualDevicePlatform,
@@ -158,28 +159,28 @@ export class VirtualDeviceAccessory {
 
   async triggerSensor() {
     if (this.devConfig.sensor === 'motion') {
-      this.motionSensor.updateCharacteristic(this.platform.Characteristic.MotionDetected, true);
+      this.sensor.updateCharacteristic(this.platform.Characteristic.MotionDetected, true);
       setTimeout(() => {
         // push the new value to HomeKit
-        this.motionSensor.updateCharacteristic(this.platform.Characteristic.MotionDetected, false);
+        this.sensor.updateCharacteristic(this.platform.Characteristic.MotionDetected, false);
       }, 3000);
     } else if (this.devConfig.sensor === 'contact') {
-      this.motionSensor.updateCharacteristic(this.platform.Characteristic.ContactSensorState, true);
+      this.sensor.updateCharacteristic(this.platform.Characteristic.ContactSensorState, true);
       setTimeout(() => {
         // push the new value to HomeKit
-        this.motionSensor.updateCharacteristic(this.platform.Characteristic.ContactSensorState, false);
+        this.sensor.updateCharacteristic(this.platform.Characteristic.ContactSensorState, false);
       }, 3000);
     } else if (this.devConfig.sensor === 'occupancy') {
-      this.motionSensor.updateCharacteristic(this.platform.Characteristic.OccupancyDetected, true);
+      this.sensor.updateCharacteristic(this.platform.Characteristic.OccupancyDetected, true);
       setTimeout(() => {
         // push the new value to HomeKit
-        this.motionSensor.updateCharacteristic(this.platform.Characteristic.OccupancyDetected, false);
+        this.sensor.updateCharacteristic(this.platform.Characteristic.OccupancyDetected, false);
       }, 3000);
     } else if (this.devConfig.sensor === 'leak') {
-      this.motionSensor.updateCharacteristic(this.platform.Characteristic.LeakDetected, true);
+      this.sensor.updateCharacteristic(this.platform.Characteristic.LeakDetected, true);
       setTimeout(() => {
         // push the new value to HomeKit
-        this.motionSensor.updateCharacteristic(this.platform.Characteristic.LeakDetected, false);
+        this.sensor.updateCharacteristic(this.platform.Characteristic.LeakDetected, false);
       }, 3000);
     }
 
