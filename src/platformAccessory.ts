@@ -120,6 +120,31 @@ export class VirtualDeviceAccessory {
         .onSet(this.setValue.bind(this));       // SET - bind to the 'setValue` method below
     }
 
+    // start values
+    if (this.devConfig.type === 'switch') {
+      this.service.updateCharacteristic(this.platform.Characteristic.On, false);
+    } else if (this.devConfig.type === 'dimmer') {
+      this.service.updateCharacteristic(this.platform.Characteristic.On, false);
+      this.service.updateCharacteristic(this.platform.Characteristic.Brightness, 0);
+    } else if (this.devConfig.type === 'blind') {
+      this.service.updateCharacteristic(this.platform.Characteristic.CurrentPosition, 0);
+      this.service.updateCharacteristic(this.platform.Characteristic.TargetPosition, 0);
+    } else if (this.devConfig.type === 'garage') {
+      this.service.updateCharacteristic(this.platform.Characteristic.CurrentDoorState, 0);
+      this.service.updateCharacteristic(this.platform.Characteristic.TargetDoorState, 0);
+    } else if (this.devConfig.type === 'lock') {
+      this.service.updateCharacteristic(this.platform.Characteristic.LockCurrentState, 0);
+      this.service.updateCharacteristic(this.platform.Characteristic.LockTargetState, 0);
+    } else if (this.devConfig.type === 'motion') {
+      this.service.updateCharacteristic(this.platform.Characteristic.MotionDetected, 0);
+    } else if (this.devConfig.type === 'security') {
+      this.service.updateCharacteristic(this.platform.Characteristic.SecuritySystemCurrentState, 0);
+      this.service.updateCharacteristic(this.platform.Characteristic.SecuritySystemTargetState, 0);
+    } else if (this.devConfig.type === 'thermostat') {
+      this.service.updateCharacteristic(this.platform.Characteristic.CurrentHeatingCoolingState, 0);
+      this.service.updateCharacteristic(this.platform.Characteristic.TargetHeatingCoolingState, 0);
+    }
+
     /**
      * Creating multiple services of the same type.
      *
