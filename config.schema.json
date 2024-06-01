@@ -39,8 +39,8 @@
 	  {
             "type": "fieldset",
 	    "items": [
-              "name",
-              "type"
+              "devices[].name",
+              "devices[].type"
             ]
          }
       ]
