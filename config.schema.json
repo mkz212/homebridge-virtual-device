@@ -28,18 +28,17 @@
   },
   "layout": [
     {
-			"type": "array",
-			"key": "devices",
-			"title": "Devices",
-			"description": "",
-			"buttonText": "Add",
-			"expandable": true,
-			"expanded": false,
-			"items": [
-        "name",
-        "type"
-      ]
-
+	"type": "array",
+	"key": "devices",
+	"title": "Devices",
+	"description": "",
+	"buttonText": "Add",
+	"expandable": true,
+	"expanded": false,
+	"items": [
+	        "name",
+	        "type"
+      	]
     }
-  }
+  ]
 }
