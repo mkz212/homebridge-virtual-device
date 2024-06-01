@@ -76,11 +76,11 @@ export class VirtualDeviceAccessory {
     // register handlers
     if (this.devConfig.type === 'switch') {
       this.service.getCharacteristic(this.platform.Characteristic.On)
-        .onSet(this.setValue.bind(this))
+        .onSet(this.setValue.bind(this));
         //.onGet(this.getOn.bind(this));
     } else if (this.devConfig.type === 'dimmer') {
       this.service.getCharacteristic(this.platform.Characteristic.On)
-        .onSet(this.setValue.bind(this))
+        .onSet(this.setValue.bind(this));
         //.onGet(this.getOn.bind(this));
       this.service.getCharacteristic(this.platform.Characteristic.Brightness)
         .onSet(this.setValue.bind(this));
@@ -174,7 +174,6 @@ export class VirtualDeviceAccessory {
 
   }
 
-  
 
   /**
    * Handle the "GET" requests from HomeKit
