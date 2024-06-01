@@ -17,7 +17,7 @@ export class VirtualDeviceAccessory {
   private states = {
     On: false,
     Brightness: 0,
-    CurrentPosition: 0
+    CurrentPosition: 0,
     TargetPosition: 0
   };
 
