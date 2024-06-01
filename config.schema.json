@@ -13,55 +13,69 @@
           "properties": {
             "name": {
               "title": "Name",
-	      "description": "Name of device, as it will be show in HomeKit.",
+              "description": "Name of device, as it will be show in HomeKit.",
               "type": "string",
               "required": true
             },
             "type": {
               "title": "Type",
-	      "description": "Type of device: switch, dimmer, etc.",
-              "type": "string",
-	      "required": true
-              "default": "switch",
-	      "oneOf": [
-		{
-			"title": "Switch",
-			"enum": ["switch"]
-		},
-		{
-			"title": "Dimmer",
-			"enum": ["dimmer"]
-		}
-	      ]
-            },
-	    "sensor": {
-              "title": "Add sensor",
-	      "description": "Add sensor to this device. Sensor will triger for 3 sec. when this device will set to off (useful for notifications).",
+              "description": "Type of device: switch, dimmer, etc.",
               "type": "string",
               "required": true,
-	      "default": "off",
-	      "oneOf": [
-		{
-			"title": "Off",
-			"enum": ["off"]
-		},
-		{
-			"title": "Motion",
-			"enum": ["motion"]
-		},
-		{
-			"title": "Contact",
-			"enum": ["contact"]
-		},
-		{
-			"title": "Occupancy",
-			"enum": ["occupancy"]
-		},
-		{
-			"title": "Leak",
-			"enum": ["leak"]
-		}
-	      ]
+              "default": "switch",
+              "oneOf": [
+                {
+                  "title": "Switch",
+                  "enum": [
+                    "switch"
+                  ]
+                },
+                {
+                  "title": "Dimmer",
+                  "enum": [
+                    "dimmer"
+                  ]
+                }
+              ]
+            },
+            "sensor": {
+              "title": "Add sensor",
+              "description": "Add sensor to this device. Sensor will triger for 3 sec. when this device will set to off (useful for notifications).",
+              "type": "string",
+              "required": true,
+              "default": "off",
+              "oneOf": [
+                {
+                  "title": "Off",
+                  "enum": [
+                    "off"
+                  ]
+                },
+                {
+                  "title": "Motion",
+                  "enum": [
+                    "motion"
+                  ]
+                },
+                {
+                  "title": "Contact",
+                  "enum": [
+                    "contact"
+                  ]
+                },
+                {
+                  "title": "Occupancy",
+                  "enum": [
+                    "occupancy"
+                  ]
+                },
+                {
+                  "title": "Leak",
+                  "enum": [
+                    "leak"
+                  ]
+                }
+              ]
             }
           }
         }
@@ -70,22 +84,22 @@
   },
   "layout": [
     {
-	"type": "array",
-	"key": "devices",
-	"title": "Devices",
-	"description": "",
-	"buttonText": "Add",
-	"expandable": false,
-	"expanded": true,
-	"items": [
-	  {
-            "type": "fieldset",
-	    "items": [
-              "devices[].name",
-              "devices[].type",
-	      "devices[].addSensor"
-            ]
-         }
+      "type": "array",
+      "key": "devices",
+      "title": "Devices",
+      "description": "",
+      "buttonText": "Add",
+      "expandable": false,
+      "expanded": true,
+      "items": [
+        {
+          "type": "fieldset",
+          "items": [
+            "devices[].name",
+            "devices[].type",
+            "devices[].addSensor"
+          ]
+        }
       ]
     }
   ]
