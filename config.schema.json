@@ -5,23 +5,41 @@
   "author": "mkz212",
   "schema": {
     "type": "object",
-    "additionalProperties": true,
     "properties": {
       "devices": {
         "type": "array",
-        "additionalProperties": true,
         "items": {
           "type": "object",
-          "additionalProperties": true,
           "properties": {
             "name": {
               "title": "Name",
+              "type": "string",
+              "required": true
+            },
+            "type": {
+              "title": "Type",
               "type": "string",
               "required": true
             }
           }
         }
       }
+    }
+  },
+  "layout": [
+    {
+			"type": "array",
+			"key": "devices",
+			"title": "Devices",
+			"description": "",
+			"buttonText": "Add",
+			"expandable": true,
+			"expanded": false,
+			"items": [
+        "name",
+        "type"
+      ]
+
     }
   }
 }
