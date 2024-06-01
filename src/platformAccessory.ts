@@ -236,28 +236,17 @@ export class VirtualDeviceAccessory {
     this.platform.log.info(`[${this.accessory.context.device.name}]: ${value}`);
   }
 
-  async triggerSensor() {
+  async triggerSensor(value) {
     if (this.devConfig.sensor === 'motion') {
-      this.sensor.updateCharacteristic(this.platform.Characteristic.MotionDetected, true);
-      setTimeout(() => {
-        this.sensor.updateCharacteristic(this.platform.Characteristic.MotionDetected, false);
-      }, 3000);
+      this.sensor.updateCharacteristic(this.platform.Characteristic.MotionDetected, value);
     } else if (this.devConfig.sensor === 'contact') {
-      this.sensor.updateCharacteristic(this.platform.Characteristic.ContactSensorState, true);
-      setTimeout(() => {
-        this.sensor.updateCharacteristic(this.platform.Characteristic.ContactSensorState, false);
-      }, 3000);
+      this.sensor.updateCharacteristic(this.platform.Characteristic.ContactSensorState, value);
     } else if (this.devConfig.sensor === 'occupancy') {
-      this.sensor.updateCharacteristic(this.platform.Characteristic.OccupancyDetected, true);
-      setTimeout(() => {
-        this.sensor.updateCharacteristic(this.platform.Characteristic.OccupancyDetected, false);
-      }, 3000);
+      this.sensor.updateCharacteristic(this.platform.Characteristic.OccupancyDetected, value);
     } else if (this.devConfig.sensor === 'leak') {
-      this.sensor.updateCharacteristic(this.platform.Characteristic.LeakDetected, true);
-      setTimeout(() => {
-        this.sensor.updateCharacteristic(this.platform.Characteristic.LeakDetected, false);
-      }, 3000);
+      this.sensor.updateCharacteristic(this.platform.Characteristic.LeakDetected, value);
     }
+    setTimeout(this.triggerSensor(false), 3000);
 
   }
 
