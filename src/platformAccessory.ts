@@ -152,19 +152,19 @@ export class VirtualDeviceAccessory {
     }
 
     // add sensor
-    if (this.devConfig.sensor === 'motion') {
+    if (this.devConfig.sensor === 'motion' || this.devConfig.sensor === 'motion2') {
       // Add motion sensor
       this.sensor = this.accessory.getService('sensor') ||
         this.accessory.addService(this.platform.Service.MotionSensor, 'sensor', 'motion');
-    } else if (this.devConfig.sensor === 'contact') {
+    } else if (this.devConfig.sensor === 'contact' || this.devConfig.sensor === 'contact2') {
       // Add contact sensor
       this.sensor = this.accessory.getService('sensor') ||
         this.accessory.addService(this.platform.Service.ContactSensor, 'sensor', 'contact');
-    } else if (this.devConfig.sensor === 'occupancy') {
+    } else if (this.devConfig.sensor === 'occupancy' || this.devConfig.sensor === 'occupancy2') {
       // Add occupancy sensor
       this.sensor = this.accessory.getService('sensor') ||
         this.accessory.addService(this.platform.Service.OccupancySensor, 'sensor', 'occupancy');
-    } else if (this.devConfig.sensor === 'leak') {
+    } else if (this.devConfig.sensor === 'leak' || this.devConfig.sensor === 'leak2') {
       // Add leak sensor
       this.sensor = this.accessory.getService('sensor') ||
         this.accessory.addService(this.platform.Service.LeakSensor, 'sensor', 'leak');
@@ -179,27 +179,37 @@ export class VirtualDeviceAccessory {
    */
   async setValue(value: CharacteristicValue) {
 
+    let offValue = false;
+
     if (this.devConfig.type === 'switch') {
       this.states.On = value as boolean;
+      offValue = false;
     } else if (this.devConfig.type === 'dimmer') {
       this.states.Brightness = value as number;
+      offValue = 0;
     } else if (this.devConfig.type === 'blind') {
       this.states.TargetPosition = value as number;
       this.service.updateCharacteristic(this.platform.Characteristic.CurrentPosition, value);
+      offValue = 0;
     } else if (this.devConfig.type === 'garage') {
       this.states.TargetDoorState = value as number;
       this.service.updateCharacteristic(this.platform.Characteristic.CurrentDoorState, value);
+      offValue = 0;
     } else if (this.devConfig.type === 'lock') {
       this.states.LockTargetState = value as number;
       this.service.updateCharacteristic(this.platform.Characteristic.LockCurrentState, value);
+      offValue = 1;
     } else if (this.devConfig.type === 'motion') {
       this.states.MotionDetected = value as number;
+      offValue = 0;
     } else if (this.devConfig.type === 'security') {
       this.states.SecuritySystemTargetState = value as number;
       this.service.updateCharacteristic(this.platform.Characteristic.SecuritySystemCurrentState, value);
+      offValue = 3;
     } else if (this.devConfig.type === 'thermostat' && value as number <= 2) {
       this.states.TargetHeatingCoolingState = value as number;
       this.service.updateCharacteristic(this.platform.Characteristic.CurrentHeatingCoolingState, value);
+      offValue = 0;
     } else if (this.devConfig.type === 'thermostat' && value as number >= 10) {
       this.states.TargetTemperature = value as number;
       this.service.updateCharacteristic(this.platform.Characteristic.CurrentTemperature, value);
@@ -207,8 +217,13 @@ export class VirtualDeviceAccessory {
 
     this.platform.log.info(`[${this.accessory.context.device.name}]: ${value}`);
 
-    // triger motion sensor if value false and sensor added
-    if (!value && this.sensor) {
+    // triger motion sensor 
+    // if value !== offValue for sensors To be triggered when device is turned on
+    if ((value !== offValue) && (this.devConfig.sensor === 'motion' || this.devConfig.sensor === 'contact'
+          || this.devConfig.sensor === 'occupancy' || this.devConfig.sensor === 'leak')) {
+      this.triggerSensor(true);
+    } else if (this.devConfig.sensor === 'motion2' || this.devConfig.sensor === 'contact2'
+          || this.devConfig.sensor === 'occupancy2' || this.devConfig.sensor === 'leak2') {
       this.triggerSensor(true);
     }
   }
