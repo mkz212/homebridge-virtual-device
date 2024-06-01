@@ -226,12 +226,13 @@ export class VirtualDeviceAccessory {
     }
 
 
+    clearTimeout(this.deviceTimer);
+    
     // if value !== offValue -> device is set to on
     if (value !== offValue) {
 
       // set timer to change device state
       if (this.devConfig.timer > 0) {
-        clearTimeout(this.deviceTimer);
         this.deviceTimer = setTimeout(() => {
           this.setValue(offValue);
         }, this.devConfig.timer);
