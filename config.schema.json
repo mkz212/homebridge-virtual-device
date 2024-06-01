@@ -36,9 +36,14 @@
 	"expandable": true,
 	"expanded": false,
 	"items": [
-	        "name",
-	        "type"
-      	]
+	  {
+            "type": "fieldset",
+	    "items": [
+              "name",
+              "type"
+            ]
+         }
+      ]
     }
   ]
 }
