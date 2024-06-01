@@ -73,55 +73,37 @@ export class VirtualDeviceAccessory {
     // each service must implement at-minimum the "required characteristics" for the given service type
     // see https://developers.homebridge.io/#/service/Lightbulb
 
-    // register handlers for the On/Off Characteristic
-    if (this.devConfig.type === 'switch' || this.devConfig.type === 'dimmer') {
+    // register handlers
+    if (this.devConfig.type === 'switch') {
       this.service.getCharacteristic(this.platform.Characteristic.On)
-        .onSet(this.setOn.bind(this))                // SET - bind to the `setOn` method below
-        .onGet(this.getOn.bind(this));               // GET - bind to the `getOn` method below
-    }
-
-    if (this.devConfig.type === 'dimmer') {
-      // register handlers for the Brightness Characteristic
+        .onSet(this.setValue.bind(this))
+        //.onGet(this.getOn.bind(this));
+    } else if (this.devConfig.type === 'dimmer') {
+      this.service.getCharacteristic(this.platform.Characteristic.On)
+        .onSet(this.setValue.bind(this))
+        //.onGet(this.getOn.bind(this));
       this.service.getCharacteristic(this.platform.Characteristic.Brightness)
-        .onSet(this.setValue.bind(this));       // SET - bind to the 'setValue` method below
-    }
-
-    if (this.devConfig.type === 'blind') {
-      // register handlers for the Position Characteristic
+        .onSet(this.setValue.bind(this));
+    } else if (this.devConfig.type === 'blind') {
       this.service.getCharacteristic(this.platform.Characteristic.TargetPosition)
-        .onSet(this.setValue.bind(this));       // SET - bind to the 'setValue` method below
-    }
-
-    if (this.devConfig.type === 'garage') {
-      // register handlers for the Position Characteristic
+        .onSet(this.setValue.bind(this));
+    } else if (this.devConfig.type === 'garage') {
       this.service.getCharacteristic(this.platform.Characteristic.TargetDoorState)
-        .onSet(this.setValue.bind(this));       // SET - bind to the 'setValue` method below
-    }
-
-    if (this.devConfig.type === 'lock') {
-      // register handlers for the Position Characteristic
+        .onSet(this.setValue.bind(this));
+    } else if (this.devConfig.type === 'lock') {
       this.service.getCharacteristic(this.platform.Characteristic.LockTargetState)
-        .onSet(this.setValue.bind(this));       // SET - bind to the 'setValue` method below
-    }
-
-    if (this.devConfig.type === 'motion') {
-      // register handlers for the Position Characteristic
+        .onSet(this.setValue.bind(this));
+    } else if (this.devConfig.type === 'motion') {
       this.service.getCharacteristic(this.platform.Characteristic.MotionDetected)
-        .onSet(this.setValue.bind(this));       // SET - bind to the 'setValue` method below
-    }
-
-    if (this.devConfig.type === 'security') {
-      // register handlers for the Position Characteristic
+        .onSet(this.setValue.bind(this));
+    } else if (this.devConfig.type === 'security') {
       this.service.getCharacteristic(this.platform.Characteristic.SecuritySystemTargetState)
-        .onSet(this.setValue.bind(this));       // SET - bind to the 'setValue` method below
-    }
-
-    if (this.devConfig.type === 'thermostat') {
-      // register handlers for the Position Characteristic
+        .onSet(this.setValue.bind(this));
+    } else if (this.devConfig.type === 'thermostat') {
       this.service.getCharacteristic(this.platform.Characteristic.TargetHeatingCoolingState)
-        .onSet(this.setValue.bind(this));       // SET - bind to the 'setValue` method below
+        .onSet(this.setValue.bind(this));
       this.service.getCharacteristic(this.platform.Characteristic.TargetTemperature)
-        .onSet(this.setValue.bind(this));       // SET - bind to the 'setValue` method below
+        .onSet(this.setValue.bind(this));
     }
 
     // start values
@@ -192,21 +174,7 @@ export class VirtualDeviceAccessory {
 
   }
 
-  /**
-   * Handle "SET" requests from HomeKit
-   * These are sent when the user changes the state of an accessory, for example, turning on a Light bulb.
-   */
-  async setOn(value: CharacteristicValue) {
-    // implement your own code to turn your device on/off
-    this.states.On = value as boolean;
-
-    this.platform.log.info(`[${this.accessory.context.device.name}]: ${(value) ? 'set on' : 'set off'}`);
-
-    // triger motion sensor if value false and sensor added
-    if (!value && this.sensor) {
-      this.triggerSensor(true);
-    }
-  }
+  
 
   /**
    * Handle the "GET" requests from HomeKit
@@ -239,7 +207,9 @@ export class VirtualDeviceAccessory {
    */
   async setValue(value: CharacteristicValue) {
 
-    if (this.devConfig.type === 'dimmer') {
+    if (this.devConfig.type === 'switch') {
+      this.states.On = value as boolean;
+    } else if (this.devConfig.type === 'dimmer') {
       this.states.Brightness = value as number;
     } else if (this.devConfig.type === 'blind') {
       this.states.TargetPosition = value as number;
@@ -264,6 +234,11 @@ export class VirtualDeviceAccessory {
     }
 
     this.platform.log.info(`[${this.accessory.context.device.name}]: ${value}`);
+
+    // triger motion sensor if value false and sensor added
+    if (!value && this.sensor) {
+      this.triggerSensor(true);
+    }
   }
 
   async triggerSensor(value) {
