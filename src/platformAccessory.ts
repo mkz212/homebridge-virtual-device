@@ -21,6 +21,13 @@ export class VirtualDeviceAccessory {
     TargetPosition: 0,
     CurrentDoorState: 0,
     TargetDoorState: 0,
+    MotionDetected,
+    LockCurrentState,
+    LockTargetState,
+    SecuritySystemCurrentState,
+    SecuritySystemTargetState,
+    CurrentHeatingCoolingState,
+    TargetHeatingCoolingState,
   };
 
   devConfig;
@@ -37,7 +44,7 @@ export class VirtualDeviceAccessory {
     // set accessory information
     this.accessory.getService(this.platform.Service.AccessoryInformation)!
       .setCharacteristic(this.platform.Characteristic.Manufacturer, 'Homebridge Virtual Device')
-      .setCharacteristic(this.platform.Characteristic.Model, devConfig.type || 'type')
+      .setCharacteristic(this.platform.Characteristic.Model, this.devConfig.type || 'type')
       .setCharacteristic(this.platform.Characteristic.SerialNumber, accessory.context.device.uuid || 'uuid');
 
 
@@ -48,6 +55,14 @@ export class VirtualDeviceAccessory {
       this.service = this.accessory.getService(this.platform.Service.WindowCovering) || this.accessory.addService(this.platform.Service.WindowCovering);
     } else if (this.devConfig.type === 'garage') {
       this.service = this.accessory.getService(this.platform.Service.GarageDoorOpener) || this.accessory.addService(this.platform.Service.GarageDoorOpener);
+    } else if (this.devConfig.type === 'lock') {
+      this.service = this.accessory.getService(this.platform.Service.LockMechanism) || this.accessory.addService(this.platform.Service.LockMechanism);
+    } else if (this.devConfig.type === 'motion') {
+      this.service = this.accessory.getService(this.platform.Service.MotionSensor) || this.accessory.addService(this.platform.Service.MotionSensor);
+    } else if (this.devConfig.type === 'security') {
+      this.service = this.accessory.getService(this.platform.Service.SecuritySystem) || this.accessory.addService(this.platform.Service.SecuritySystem);
+    } else if (this.devConfig.type === 'thermostat') {
+      this.service = this.accessory.getService(this.platform.Service.Thermostat) || this.accessory.addService(this.platform.Service.Thermostat);
     } else {
       this.service = this.accessory.getService(this.platform.Service.Switch) || this.accessory.addService(this.platform.Service.Switch);
     }
@@ -82,6 +97,30 @@ export class VirtualDeviceAccessory {
     if (this.devConfig.type === 'garage') {
       // register handlers for the Position Characteristic
       this.service.getCharacteristic(this.platform.Characteristic.TargetDoorState)
+        .onSet(this.setValue.bind(this));       // SET - bind to the 'setValue` method below
+    }
+
+    if (this.devConfig.type === 'lock') {
+      // register handlers for the Position Characteristic
+      this.service.getCharacteristic(this.platform.Characteristic.LockTargetState)
+        .onSet(this.setValue.bind(this));       // SET - bind to the 'setValue` method below
+    }
+
+    if (this.devConfig.type === 'motion') {
+      // register handlers for the Position Characteristic
+      this.service.getCharacteristic(this.platform.Characteristic.MotionDetected)
+        .onSet(this.setValue.bind(this));       // SET - bind to the 'setValue` method below
+    }
+
+    if (this.devConfig.type === 'security') {
+      // register handlers for the Position Characteristic
+      this.service.getCharacteristic(this.platform.Characteristic.SecuritySystemTargetState)
+        .onSet(this.setValue.bind(this));       // SET - bind to the 'setValue` method below
+    }
+
+    if (this.devConfig.type === 'thermostat') {
+      // register handlers for the Position Characteristic
+      this.service.getCharacteristic(this.platform.Characteristic.TargetHeatingCoolingState)
         .onSet(this.setValue.bind(this));       // SET - bind to the 'setValue` method below
     }
 
@@ -181,9 +220,20 @@ export class VirtualDeviceAccessory {
     } else if (this.devConfig.type === 'garage') {
       this.states.TargetDoorState = value as number;
       this.service.updateCharacteristic(this.platform.Characteristic.CurrentDoorState, value);
+    } else if (this.devConfig.type === 'lock') {
+      this.states.LockTargetState = value as number;
+      this.service.updateCharacteristic(this.platform.Characteristic.LockCurrentState, value);
+    } else if (this.devConfig.type === 'motion') {
+      this.states.MotionDetected = value as number;
+    } else if (this.devConfig.type === 'security') {
+      this.states.SecuritySystemTargetState = value as number;
+      this.service.updateCharacteristic(this.platform.Characteristic.SecuritySystemCurrentState, value);
+    } else if (this.devConfig.type === 'thermostat') {
+      this.states.TargetHeatingCoolingState = value as number;
+      this.service.updateCharacteristic(this.platform.Characteristic.CurrentHeatingCoolingState, value);
     }
 
-    this.platform.log.info(`[${this.accessory.context.device.name}]: ${value}%`);
+    this.platform.log.info(`[${this.accessory.context.device.name}]: ${value}`);
   }
 
   async triggerSensor() {
