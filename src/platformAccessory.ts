@@ -247,8 +247,11 @@ export class VirtualDeviceAccessory {
     } else if (this.devConfig.sensor === 'leak') {
       this.sensor.updateCharacteristic(this.platform.Characteristic.LeakDetected, value);
     }
-    clearTimeout(sensorTimer);
-    sensorTimer = setTimeout(this.triggerSensor(false), 3000);
+
+    if (value) {
+      clearTimeout(sensorTimer);
+      sensorTimer = setTimeout(this.triggerSensor(false), 3000);
+    }
 
   }
 
