@@ -74,31 +74,31 @@ export class VirtualDeviceAccessory {
      * can use the same subtype id.)
      */
 
-    // remove sensor if off or if changed type
-    if (this.accessory.getService('sensor')?.subtype !== accessory.context.device.sensor){
+    // check current config for device
+    const devConfig = this.platform.config.devices.find((item) => item.name === accessory.context.device.name) || {};
+
+    // add sensor
+    if (devConfig.sensor === 'motion') {
+      // Add motion sensor
+      this.motionSensor = this.accessory.getService('sensor') ||
+        this.accessory.addService(this.platform.Service.MotionSensor, 'sensor', 'motion');
+    } else if (devConfig.sensor === 'contact') {
+      // Add contact sensor
+      this.motionSensor = this.accessory.getService('sensor') ||
+        this.accessory.addService(this.platform.Service.ContactSensor, 'sensor', 'contact');
+    } else if (devConfig.sensor === 'occupancy') {
+      // Add occupancy sensor
+      this.motionSensor = this.accessory.getService('sensor') ||
+        this.accessory.addService(this.platform.Service.OccupancySensor, 'sensor', 'occupancy');
+    } else if (devConfig.sensor === 'leak') {
+      // Add leak sensor
+      this.motionSensor = this.accessory.getService('sensor') ||
+        this.accessory.addService(this.platform.Service.LeakSensor, 'sensor', 'leak');
+    } else {
       const removeService = this.accessory.getService('sensor');
       if (removeService) {
         this.accessory.removeService(removeService);
       }
-    }
-
-    // add sensor
-    if (accessory.context.device.sensor === 'motion') {
-      // Add motion sensor
-      this.motionSensor = this.accessory.getService('sensor') ||
-        this.accessory.addService(this.platform.Service.MotionSensor, 'sensor', 'motion');
-    } else if (accessory.context.device.sensor === 'contact') {
-      // Add contact sensor
-      this.motionSensor = this.accessory.getService('sensor') ||
-        this.accessory.addService(this.platform.Service.ContactSensor, 'sensor', 'contact');
-    } else if (accessory.context.device.sensor === 'occupancy') {
-      // Add occupancy sensor
-      this.motionSensor = this.accessory.getService('sensor') ||
-        this.accessory.addService(this.platform.Service.OccupancySensor, 'sensor', 'occupancy');
-    } else if (accessory.context.device.sensor === 'leak') {
-      // Add leak sensor
-      this.motionSensor = this.accessory.getService('sensor') ||
-        this.accessory.addService(this.platform.Service.LeakSensor, 'sensor', 'leak');
     }
 
   }
