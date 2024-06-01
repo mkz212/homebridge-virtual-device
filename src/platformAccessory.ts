@@ -255,10 +255,10 @@ export class VirtualDeviceAccessory {
     } else if (this.devConfig.type === 'security') {
       this.states.SecuritySystemTargetState = value as number;
       this.service.updateCharacteristic(this.platform.Characteristic.SecuritySystemCurrentState, value);
-    } else if (this.devConfig.type === 'thermostat' && value <= 2) {
+    } else if (this.devConfig.type === 'thermostat' && parseInt(value) <= 2) {
       this.states.TargetHeatingCoolingState = value as number;
       this.service.updateCharacteristic(this.platform.Characteristic.CurrentHeatingCoolingState, value);
-    } else if (this.devConfig.type === 'thermostat' && value > 2) {
+    } else if (this.devConfig.type === 'thermostat' && parseInt(value) > 2) {
       this.states.TargetTemperature = value as number;
       this.service.updateCharacteristic(this.platform.Characteristic.CurrentTemperature, value);
     }
