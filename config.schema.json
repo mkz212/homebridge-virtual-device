@@ -41,36 +41,15 @@
               "required": true,
               "default": "off",
               "oneOf": [
-                {
-                  "title": "Off",
-                  "enum": [
-                    "off"
-                  ]
-                },
-                {
-                  "title": "Motion",
-                  "enum": [
-                    "motion"
-                  ]
-                },
-                {
-                  "title": "Contact",
-                  "enum": [
-                    "contact"
-                  ]
-                },
-                {
-                  "title": "Occupancy",
-                  "enum": [
-                    "occupancy"
-                  ]
-                },
-                {
-                  "title": "Leak",
-                  "enum": [
-                    "leak"
-                  ]
-                }
+                { "title": "Off", "enum": ["off"] },
+                { "title": "Motion", "enum": ["motion"] },
+                { "title": "Motion - trigger when off", "enum": ["motion2"] },
+                { "title": "Contact", "enum": ["contact"] },
+                { "title": "Contact - trigger when off", "enum": ["contact2"] },
+                { "title": "Occupancy", "enum": ["occupancy"] },
+                { "title": "Occupancy - trigger when off", "enum": ["occupancy2"] },
+                { "title": "Leak", "enum": ["leak"] },
+                { "title": "Leak - trigger when off", "enum": ["leak2"] }
               ]
             }
           }
