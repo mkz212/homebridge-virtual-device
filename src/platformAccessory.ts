@@ -32,10 +32,6 @@ export class VirtualDeviceAccessory {
       .setCharacteristic(this.platform.Characteristic.Model, accessory.context.device.type || 'type')
       .setCharacteristic(this.platform.Characteristic.SerialNumber, accessory.context.device.uuid || 'uuid');
 
-    // set the service name, this is what is displayed as the default name on the Home app
-    // in this example we are using the name we stored in the `accessory.context` in the `discoverDevices` method.
-    this.service.setCharacteristic(this.platform.Characteristic.Name, accessory.context.device.name);
-
 
     // set device type
     if (accessory.context.device.type === 'switch') {
@@ -47,6 +43,10 @@ export class VirtualDeviceAccessory {
       // you can create multiple services for each accessory
       this.service = this.accessory.getService(this.platform.Service.Lightbulb) || this.accessory.addService(this.platform.Service.Lightbulb);
     }
+
+    // set the service name, this is what is displayed as the default name on the Home app
+    // in this example we are using the name we stored in the `accessory.context` in the `discoverDevices` method.
+    this.service.setCharacteristic(this.platform.Characteristic.Name, accessory.context.device.name);
 
 
     // each service must implement at-minimum the "required characteristics" for the given service type
