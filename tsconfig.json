@@ -14,6 +14,7 @@
     "moduleResolution":"node",
     "sourceMap": true,
     "strict": true,
+    "noImplicitAny": false,
     "target": "ES2022"
   },
   "include": [
