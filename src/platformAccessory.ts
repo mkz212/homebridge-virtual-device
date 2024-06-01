@@ -27,7 +27,7 @@ export class VirtualDeviceAccessory {
   ) {
 
     // check current config for device
-    const devConfig = this.platform.config.devices.find((item) => item.name === accessory.context.device.name) || {};
+    this.devConfig = this.platform.config.devices.find((item) => item.name === accessory.context.device.name) || {};
 
     // set accessory information
     this.accessory.getService(this.platform.Service.AccessoryInformation)!
