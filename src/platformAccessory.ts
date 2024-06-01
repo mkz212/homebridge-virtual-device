@@ -230,11 +230,11 @@ export class VirtualDeviceAccessory {
     if (value !== offValue) {
 
       // set timer to change device state
-      if (devConfig.timer > 0) {
+      if (this.devConfig.timer > 0) {
         clearTimeout(this.deviceTimer);
         this.deviceTimer = setTimeout(() => {
           this.setValue(offValue);
-        }, 10000);
+        }, this.devConfig.timer);
       }
 
       // triger motion when device is on
