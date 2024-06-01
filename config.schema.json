@@ -13,13 +13,33 @@
           "properties": {
             "name": {
               "title": "Name",
+	      "description": "Name of device, as it will be show in HomeKit.",
               "type": "string",
               "required": true
             },
             "type": {
               "title": "Type",
+	      "description": "Type of device: switch, dimmer, etc.",
               "type": "string",
-              "required": true
+              "default": "switch",
+	      "oneOf": [
+		{
+			"title": "Switch",
+			"enum": ["switch"]
+		},
+		{
+			"title": "Dimmer",
+			"enum": ["dimmer"]
+		}
+	      ],
+	      "required": true
+            },
+	    "addSensor": {
+              "title": "Add sensor",
+	      "description": "Add motion sensor to this device. Motion sensor will triger for 3 sec. when this device will set to off (useful for notifications).",
+              "type": "boolean",
+              "required": false,
+	      "default": false
             }
           }
         }
@@ -40,7 +60,8 @@
             "type": "fieldset",
 	    "items": [
               "devices[].name",
-              "devices[].type"
+              "devices[].type",
+	      "devices[].addSensor"
             ]
          }
       ]
