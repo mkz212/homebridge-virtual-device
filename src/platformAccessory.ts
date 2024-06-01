@@ -76,7 +76,7 @@ export class VirtualDeviceAccessory {
       this.motionSensor = this.accessory.getService('Motion Sensor One Name') ||
         this.accessory.addService(this.platform.Service.MotionSensor, 'Motion Sensor One Name', 'YourUniqueIdentifier-1');
     } else {
-      const removeService = this.accessory.getService('Motion Sensor One Name);
+      const removeService = this.accessory.getService('Motion Sensor One Name');
       if (removeService) {
         this.accessory.removeService(removeService);
       }
