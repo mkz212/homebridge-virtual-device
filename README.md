@@ -9,11 +9,14 @@
 `homebridge-virtual-device` is a dynamic platform plugin for [Homebridge](https://homebridge.io) which provides HomeKit support for virtual devices.
 
 ## How it works
-You can create virtual devices (like switch, dimmer, etc.) what is useful in HomeKit / Apple Home automations.
+- Create virtual device (like switch, dimmer, blind, garage, leak, security, thermostat, etc.).
+- For each device you can add timer to automatically turn off device after this time.
+- For each device you can add sensor (motion, contact, occupancy, leak) to activate for 3 sec when main device is turned on or off (you can choose).
+- All of that is useful in HomeKit / Apple Home automations.
 
 ## Install plugin
 
-This plugin can be easily installed through Homebridge UI or via [NPM](https://www.npmjs.com/package/homebridge-virtual-device) "globally" by typing:
+This plugin can be easily installed and configured through Homebridge UI or via [NPM](https://www.npmjs.com/package/homebridge-virtual-device) "globally" by typing:
 
     npm install -g homebridge-virtual-device
 
@@ -45,6 +48,9 @@ Basic settings (required):
 - `platform` (string): Tells Homebridge which platform this config belongs to. Leave as is.
 - `name` (string): Name of device, as it will display in HomeKit.
 - `type` (string): Device type, like switch, dimmer, etc.
+- `timer` (integer): Device type, like switch, dimmer, etc.
+- `sensor` (string): Device type, like switch, dimmer, etc.
+
 
 ## Troubleshooting
 
