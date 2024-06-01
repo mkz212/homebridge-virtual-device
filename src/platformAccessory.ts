@@ -239,7 +239,7 @@ export class VirtualDeviceAccessory {
 
       // triger motion when device is on
       if (this.devConfig.sensor === 'motion' || this.devConfig.sensor === 'contact'
-            || this.devConfig.sensor === 'occupancy' || this.devConfig.sensor === 'leak')) {
+            || this.devConfig.sensor === 'occupancy' || this.devConfig.sensor === 'leak') {
         this.triggerSensor(true);
       }
 
