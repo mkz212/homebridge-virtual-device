@@ -137,16 +137,18 @@ export class VirtualDeviceAccessory {
       this.service.updateCharacteristic(this.platform.Characteristic.CurrentDoorState, 0);
       this.service.updateCharacteristic(this.platform.Characteristic.TargetDoorState, 0);
     } else if (this.devConfig.type === 'lock') {
-      this.service.updateCharacteristic(this.platform.Characteristic.LockCurrentState, 0);
-      this.service.updateCharacteristic(this.platform.Characteristic.LockTargetState, 0);
+      this.service.updateCharacteristic(this.platform.Characteristic.LockCurrentState, 1);
+      this.service.updateCharacteristic(this.platform.Characteristic.LockTargetState, 1);
     } else if (this.devConfig.type === 'motion') {
       this.service.updateCharacteristic(this.platform.Characteristic.MotionDetected, 0);
     } else if (this.devConfig.type === 'security') {
-      this.service.updateCharacteristic(this.platform.Characteristic.SecuritySystemCurrentState, 0);
-      this.service.updateCharacteristic(this.platform.Characteristic.SecuritySystemTargetState, 0);
+      this.service.updateCharacteristic(this.platform.Characteristic.SecuritySystemCurrentState, 3);
+      this.service.updateCharacteristic(this.platform.Characteristic.SecuritySystemTargetState, 3);
     } else if (this.devConfig.type === 'thermostat') {
       this.service.updateCharacteristic(this.platform.Characteristic.CurrentHeatingCoolingState, 0);
       this.service.updateCharacteristic(this.platform.Characteristic.TargetHeatingCoolingState, 0);
+      this.service.updateCharacteristic(this.platform.Characteristic.CurrentTemperature, 0);
+      this.service.updateCharacteristic(this.platform.Characteristic.TargetTemperature, 0);
     }
 
     /**
@@ -165,8 +167,8 @@ export class VirtualDeviceAccessory {
       const removeService = this.accessory.getService('sensor');
       if (removeService) {
         this.accessory.removeService(removeService);
+        this.platform.log.info(`remove sensor for: ${accessory.context.device.name}`);
       }
-      this.platform.log.info(`remove sensor for: ${accessory.context.device.name}`);
     }
 
     // add sensor
@@ -253,9 +255,10 @@ export class VirtualDeviceAccessory {
     } else if (this.devConfig.type === 'security') {
       this.states.SecuritySystemTargetState = value as number;
       this.service.updateCharacteristic(this.platform.Characteristic.SecuritySystemCurrentState, value);
-    } else if (this.devConfig.type === 'thermostat') {
+    } else if (this.devConfig.type === 'thermostat' && value <= 2) {
       this.states.TargetHeatingCoolingState = value as number;
       this.service.updateCharacteristic(this.platform.Characteristic.CurrentHeatingCoolingState, value);
+    } else if (this.devConfig.type === 'thermostat' && value > 2) {
       this.states.TargetTemperature = value as number;
       this.service.updateCharacteristic(this.platform.Characteristic.CurrentTemperature, value);
     }
