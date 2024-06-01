@@ -10,10 +10,6 @@ import { VirtualDevicePlatform } from './platform.js';
 export class VirtualDeviceAccessory {
   private service: Service;
 
-  /**
-   * These are just used to create a working example
-   * You should implement your own code to track the state of your accessory
-   */
   private states = {
     On: false,
     Brightness: 0,
@@ -47,7 +43,6 @@ export class VirtualDeviceAccessory {
       .setCharacteristic(this.platform.Characteristic.Manufacturer, 'Homebridge Virtual Device')
       .setCharacteristic(this.platform.Characteristic.Model, this.devConfig.type || 'type')
       .setCharacteristic(this.platform.Characteristic.SerialNumber, accessory.context.device.uuid || 'uuid');
-
 
     // set device type
     if (this.devConfig.type === 'dimmer') {
@@ -196,12 +191,12 @@ export class VirtualDeviceAccessory {
    * this.service.updateCharacteristic(this.platform.Characteristic.On, true)
    */
   async getOn(): Promise<CharacteristicValue> {
-    // implement your own code to check if the device is on
+    // check if the device is on
     const isOn = this.states.On;
 
     this.platform.log.info(`[${this.accessory.context.device.name}]: ${(isOn) ? 'on' : 'off'}`);
 
-    // if you need to return an error to show the device as "Not Responding" in the Home app:
+    // if need to return an error to show the device as "Not Responding" in the Home app:
     // throw new this.platform.api.hap.HapStatusError(this.platform.api.hap.HAPStatus.SERVICE_COMMUNICATION_FAILURE);
 
     return isOn;
@@ -254,7 +249,6 @@ export class VirtualDeviceAccessory {
         this.triggerSensor(false);
       }, 3000);
     }
-
   }
 
 }
