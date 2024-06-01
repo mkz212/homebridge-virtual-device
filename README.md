@@ -59,6 +59,16 @@ Example config.json:
 ## Troubleshooting
 
 <details>
+<summary>General issues</summary>
+
+Try:
+- restart Homebridge / plugin bridge
+- restart Apple hub
+- remove device from cache (in Homebridge settings)
+
+</details>
+
+<details>
 <summary>Child bridge</summary>
     
 - It's recommended you run this plugin as a [child bridge](https://github.com/homebridge/homebridge/wiki/Child-Bridges).
