@@ -19,10 +19,11 @@ export class VirtualDeviceAccessory {
     Brightness: 100,
   };
 
+  motionSensor;
+
   constructor(
     private readonly platform: VirtualDevicePlatform,
     private readonly accessory: PlatformAccessory,
-    this.motionSensor,
   ) {
 
     // set accessory information
