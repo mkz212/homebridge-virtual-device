@@ -14,7 +14,7 @@ export class VirtualDeviceAccessory {
    * These are just used to create a working example
    * You should implement your own code to track the state of your accessory
    */
-  private exampleStates = {
+  private states = {
     On: false,
     Brightness: 100,
   };
@@ -26,13 +26,19 @@ export class VirtualDeviceAccessory {
 
     // set accessory information
     this.accessory.getService(this.platform.Service.AccessoryInformation)!
-      .setCharacteristic(this.platform.Characteristic.Manufacturer, 'Virtual Device')
-      .setCharacteristic(this.platform.Characteristic.Model, accessory.context.device.type)
-      .setCharacteristic(this.platform.Characteristic.SerialNumber, accessory.context.device.uuid);
+      .setCharacteristic(this.platform.Characteristic.Manufacturer, 'Homebridge Virtual Device')
+      .setCharacteristic(this.platform.Characteristic.Model, accessory.context.device.type || 'type')
+      .setCharacteristic(this.platform.Characteristic.SerialNumber, accessory.context.device.uuid || 'uuid');
 
-    // get the LightBulb service if it exists, otherwise create a new LightBulb service
-    // you can create multiple services for each accessory
-    this.service = this.accessory.getService(this.platform.Service.Lightbulb) || this.accessory.addService(this.platform.Service.Lightbulb);
+    if (accessory.context.device.type === 'switch') {
+      // get the Switch service if it exists, otherwise create a new Switch service
+      // you can create multiple services for each accessory
+      this.service = this.accessory.getService(this.platform.Service.Switch) || this.accessory.addService(this.platform.Service.Switch);
+    } else {
+      // get the LightBulb service if it exists, otherwise create a new LightBulb service
+      // you can create multiple services for each accessory
+      this.service = this.accessory.getService(this.platform.Service.Lightbulb) || this.accessory.addService(this.platform.Service.Lightbulb);
+    }
 
     // set the service name, this is what is displayed as the default name on the Home app
     // in this example we are using the name we stored in the `accessory.context` in the `discoverDevices` method.
@@ -97,7 +103,7 @@ export class VirtualDeviceAccessory {
    */
   async setOn(value: CharacteristicValue) {
     // implement your own code to turn your device on/off
-    this.exampleStates.On = value as boolean;
+    this.states.On = value as boolean;
 
     this.platform.log.debug('Set Characteristic On ->', value);
   }
@@ -117,7 +123,7 @@ export class VirtualDeviceAccessory {
    */
   async getOn(): Promise<CharacteristicValue> {
     // implement your own code to check if the device is on
-    const isOn = this.exampleStates.On;
+    const isOn = this.states.On;
 
     this.platform.log.debug('Get Characteristic On ->', isOn);
 
@@ -133,7 +139,7 @@ export class VirtualDeviceAccessory {
    */
   async setBrightness(value: CharacteristicValue) {
     // implement your own code to set the brightness
-    this.exampleStates.Brightness = value as number;
+    this.states.Brightness = value as number;
 
     this.platform.log.debug('Set Characteristic Brightness -> ', value);
   }
