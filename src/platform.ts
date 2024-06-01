@@ -118,7 +118,7 @@ export class VirtualDevicePlatform implements DynamicPlatformPlugin {
       for (const cachedAccessory of this.accessories) {
         if (cachedAccessory.context.device) {
           const guid = cachedAccessory.context.device.name;
-          const cachedDevice = devices.find(device => device.name === guid);
+          const cachedDevice = devices.find(device: any => device.name === guid);
           
           if (cachedDevice === undefined) {
             // This cached devices does not exist in config.
