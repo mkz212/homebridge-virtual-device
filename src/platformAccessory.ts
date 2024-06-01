@@ -166,8 +166,7 @@ export class VirtualDeviceAccessory {
     } else if (this.devConfig.type === 'blind') {
       this.states.TargetPosition = value as number;
       this.service.updateCharacteristic(this.platform.Characteristic.CurrentPosition, value);
-	  }
-  }
+    }
 
     this.platform.log.info(`[${this.accessory.context.device.name}]: ${value}%`);
   }
