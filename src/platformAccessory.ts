@@ -249,7 +249,7 @@ export class VirtualDeviceAccessory {
     }
 
     if (value) {
-      clearTimeout(sensorTimer);
+      clearTimeout(this.sensorTimer);
       this.sensorTimer = setTimeout(this.triggerSensor(false), 3000);
     }
 
