@@ -147,8 +147,8 @@ export class VirtualDeviceAccessory {
     } else if (this.devConfig.type === 'thermostat') {
       this.service.updateCharacteristic(this.platform.Characteristic.CurrentHeatingCoolingState, 0);
       this.service.updateCharacteristic(this.platform.Characteristic.TargetHeatingCoolingState, 0);
-      this.service.updateCharacteristic(this.platform.Characteristic.CurrentTemperature, 0);
-      this.service.updateCharacteristic(this.platform.Characteristic.TargetTemperature, 0);
+      this.service.updateCharacteristic(this.platform.Characteristic.CurrentTemperature, 10);
+      this.service.updateCharacteristic(this.platform.Characteristic.TargetTemperature, 10);
     }
 
     /**
@@ -258,7 +258,7 @@ export class VirtualDeviceAccessory {
     } else if (this.devConfig.type === 'thermostat' && value as number <= 2) {
       this.states.TargetHeatingCoolingState = value as number;
       this.service.updateCharacteristic(this.platform.Characteristic.CurrentHeatingCoolingState, value);
-    } else if (this.devConfig.type === 'thermostat' && value as number > 2) {
+    } else if (this.devConfig.type === 'thermostat' && value as number >= 10) {
       this.states.TargetTemperature = value as number;
       this.service.updateCharacteristic(this.platform.Characteristic.CurrentTemperature, value);
     }
