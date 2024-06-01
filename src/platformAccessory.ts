@@ -19,9 +19,9 @@ export class VirtualDeviceAccessory {
     Brightness: 100,
   };
 
-  sensor;
   devConfig;
-
+  sensor;
+  
   constructor(
     private readonly platform: VirtualDevicePlatform,
     private readonly accessory: PlatformAccessory,
@@ -80,21 +80,21 @@ export class VirtualDeviceAccessory {
 
 
     // add sensor
-    if (devConfig.sensor === 'motion') {
+    if (this.devConfig.sensor === 'motion') {
       // Add motion sensor
-      this.motionSensor = this.accessory.getService('sensor') ||
+      this.sensor = this.accessory.getService('sensor') ||
         this.accessory.addService(this.platform.Service.MotionSensor, 'sensor', 'motion');
-    } else if (devConfig.sensor === 'contact') {
+    } else if (this.devConfig.sensor === 'contact') {
       // Add contact sensor
-      this.motionSensor = this.accessory.getService('sensor') ||
+      this.sensor = this.accessory.getService('sensor') ||
         this.accessory.addService(this.platform.Service.ContactSensor, 'sensor', 'contact');
-    } else if (devConfig.sensor === 'occupancy') {
+    } else if (this.devConfig.sensor === 'occupancy') {
       // Add occupancy sensor
-      this.motionSensor = this.accessory.getService('sensor') ||
+      this.sensor = this.accessory.getService('sensor') ||
         this.accessory.addService(this.platform.Service.OccupancySensor, 'sensor', 'occupancy');
-    } else if (devConfig.sensor === 'leak') {
+    } else if (this.devConfig.sensor === 'leak') {
       // Add leak sensor
-      this.motionSensor = this.accessory.getService('sensor') ||
+      this.sensor = this.accessory.getService('sensor') ||
         this.accessory.addService(this.platform.Service.LeakSensor, 'sensor', 'leak');
     } else {
       const removeService = this.accessory.getService('sensor');
