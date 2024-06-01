@@ -21,6 +21,7 @@
               "title": "Type",
 	      "description": "Type of device: switch, dimmer, etc.",
               "type": "string",
+	      "required": true
               "default": "switch",
 	      "oneOf": [
 		{
@@ -31,15 +32,36 @@
 			"title": "Dimmer",
 			"enum": ["dimmer"]
 		}
-	      ],
-	      "required": true
+	      ]
             },
-	    "addSensor": {
+	    "sensor": {
               "title": "Add sensor",
-	      "description": "Add motion sensor to this device. Motion sensor will triger for 3 sec. when this device will set to off (useful for notifications).",
-              "type": "boolean",
-              "required": false,
-	      "default": false
+	      "description": "Add sensor to this device. Sensor will triger for 3 sec. when this device will set to off (useful for notifications).",
+              "type": "string",
+              "required": true,
+	      "default": "off",
+	      "oneOf": [
+		{
+			"title": "Off",
+			"enum": ["off"]
+		},
+		{
+			"title": "Motion",
+			"enum": ["motion"]
+		},
+		{
+			"title": "Contact",
+			"enum": ["contact"]
+		},
+		{
+			"title": "Occupancy",
+			"enum": ["occupancy"]
+		},
+		{
+			"title": "Leak",
+			"enum": ["leak"]
+		}
+	      ]
             }
           }
         }
