@@ -18,7 +18,7 @@ export class VirtualDeviceAccessory {
     On: false,
     Brightness: 0,
     CurrentPosition: 0,
-    TargetPosition: 0
+    TargetPosition: 0,
   };
 
   devConfig;
