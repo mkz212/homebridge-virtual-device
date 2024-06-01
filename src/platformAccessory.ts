@@ -71,9 +71,11 @@ export class VirtualDeviceAccessory {
      * can use the same subtype id.)
      */
 
-    // Add motion sensor
-    this.motionSensor = this.accessory.getService('Motion Sensor One Name') ||
-      this.accessory.addService(this.platform.Service.MotionSensor, 'Motion Sensor One Name', 'YourUniqueIdentifier-1');
+    if (accessory.context.device.addSensor) {
+      // Add motion sensor
+      this.motionSensor = this.accessory.getService('Motion Sensor One Name') ||
+        this.accessory.addService(this.platform.Service.MotionSensor, 'Motion Sensor One Name', 'YourUniqueIdentifier-1');
+    }
 
   }
 
@@ -85,9 +87,9 @@ export class VirtualDeviceAccessory {
     // implement your own code to turn your device on/off
     this.states.On = value as boolean;
 
-    this.platform.log.debug(`[${this.accessory.context.device.name}]: ${(value) ? 'set on' : 'set off'}`);
+    this.platform.log.info(`[${this.accessory.context.device.name}]: ${(value) ? 'set on' : 'set off'}`);
 
-    // triger motion sensor
+    // triger motion sensor if added
     if (!value) {
       this.setMotion();
     }
@@ -110,7 +112,7 @@ export class VirtualDeviceAccessory {
     // implement your own code to check if the device is on
     const isOn = this.states.On;
 
-    this.platform.log.debug(`[${this.accessory.context.device.name}]: ${(isOn) ? 'on' : 'off'}`);
+    this.platform.log.info(`[${this.accessory.context.device.name}]: ${(isOn) ? 'on' : 'off'}`);
 
     // if you need to return an error to show the device as "Not Responding" in the Home app:
     // throw new this.platform.api.hap.HapStatusError(this.platform.api.hap.HAPStatus.SERVICE_COMMUNICATION_FAILURE);
@@ -126,15 +128,17 @@ export class VirtualDeviceAccessory {
     // implement your own code to set the brightness
     this.states.Brightness = value as number;
 
-    this.platform.log.debug(`[${this.accessory.context.device.name}]: ${value}%`);
+    this.platform.log.info(`[${this.accessory.context.device.name}]: ${value}%`);
   }
 
   async setMotion() {
-    this.motionSensor.updateCharacteristic(this.platform.Characteristic.MotionDetected, true);
-    setTimeout(() => {
-      // push the new value to HomeKit
-      this.motionSensor.updateCharacteristic(this.platform.Characteristic.MotionDetected, false);
-    }, 3000);
+    if (this.accessory.context.device.addSensor) {
+      this.motionSensor.updateCharacteristic(this.platform.Characteristic.MotionDetected, true);
+      setTimeout(() => {
+        // push the new value to HomeKit
+        this.motionSensor.updateCharacteristic(this.platform.Characteristic.MotionDetected, false);
+      }, 3000);
+    }
   }
 
 }
