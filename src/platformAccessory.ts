@@ -34,8 +34,7 @@ export class VirtualDeviceAccessory {
       // get the Switch service if it exists, otherwise create a new Switch service
       // you can create multiple services for each accessory
       this.service = this.accessory.getService(this.platform.Service.Switch) || this.accessory.addService(this.platform.Service.Switch);
-    }
-    else {
+    } else {
       // get the LightBulb service if it exists, otherwise create a new LightBulb service
       // you can create multiple services for each accessory
       this.service = this.accessory.getService(this.platform.Service.Lightbulb) || this.accessory.addService(this.platform.Service.Lightbulb);
