@@ -78,6 +78,14 @@ export class VirtualDeviceAccessory {
      * can use the same subtype id.)
      */
 
+    // remove sensor if it is set to off or if need to change type
+    if (this.accessory.getService('sensor')?.subtype !== this.devConfig.sensor) {
+      const removeService = this.accessory.getService('sensor');
+      if (removeService) {
+        this.accessory.removeService(removeService);
+      }
+      this.platform.log.info(`remove sensor for: ${accessory.context.device.name}`);
+    }
 
     // add sensor
     if (this.devConfig.sensor === 'motion') {
@@ -96,11 +104,6 @@ export class VirtualDeviceAccessory {
       // Add leak sensor
       this.sensor = this.accessory.getService('sensor') ||
         this.accessory.addService(this.platform.Service.LeakSensor, 'sensor', 'leak');
-    } else {
-      const removeService = this.accessory.getService('sensor');
-      if (removeService) {
-        this.accessory.removeService(removeService);
-      }
     }
 
   }
