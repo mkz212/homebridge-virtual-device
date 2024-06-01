@@ -74,12 +74,25 @@ export class VirtualDeviceAccessory {
      * can use the same subtype id.)
      */
 
-    if (accessory.context.device.addSensor) {
+    if (accessory.context.device.sensor === 'motion') {
       // Add motion sensor
-      this.motionSensor = this.accessory.getService('Motion Sensor') ||
-        this.accessory.addService(this.platform.Service.MotionSensor, 'Motion Sensor', 'YourUniqueIdentifier-1');
+      this.motionSensor = this.accessory.getService('sensor') ||
+        this.accessory.addService(this.platform.Service.MotionSensor, 'sensor', 'UniqueIdentifier');
+    } else if (accessory.context.device.sensor === 'contact') {
+      // Add contact sensor
+      this.motionSensor = this.accessory.getService('sensor') ||
+        this.accessory.addService(this.platform.Service.ContactSensor, 'sensor', 'UniqueIdentifier');
+    } else if (accessory.context.device.sensor === 'occupancy') {
+      // Add occupancy sensor
+      this.motionSensor = this.accessory.getService('sensor') ||
+        this.accessory.addService(this.platform.Service.OccupancySensor, 'sensor', 'UniqueIdentifier');
+    } else if (accessory.context.device.sensor === 'leak') {
+      // Add leak sensor
+      this.motionSensor = this.accessory.getService('sensor') ||
+        this.accessory.addService(this.platform.Service.LeakSensor, 'sensor', 'UniqueIdentifier');
     } else {
-      const removeService = this.accessory.getService('Motion Sensor');
+      // remove sensor
+      const removeService = this.accessory.getService('sensor');
       if (removeService) {
         this.accessory.removeService(removeService);
       }
@@ -99,7 +112,7 @@ export class VirtualDeviceAccessory {
 
     // triger motion sensor if added
     if (!value) {
-      this.setMotion();
+      this.triggerSensor();
     }
   }
 
@@ -139,14 +152,33 @@ export class VirtualDeviceAccessory {
     this.platform.log.info(`[${this.accessory.context.device.name}]: ${value}%`);
   }
 
-  async setMotion() {
-    if (this.accessory.context.device.addSensor) {
+  async triggerSensor() {
+    if (this.accessory.context.device.sensor === 'motion) {
       this.motionSensor.updateCharacteristic(this.platform.Characteristic.MotionDetected, true);
       setTimeout(() => {
         // push the new value to HomeKit
         this.motionSensor.updateCharacteristic(this.platform.Characteristic.MotionDetected, false);
       }, 3000);
+    } else if (this.accessory.context.device.sensor === 'contact) {
+      this.motionSensor.updateCharacteristic(this.platform.Characteristic.ContactSensorState, true);
+      setTimeout(() => {
+        // push the new value to HomeKit
+        this.motionSensor.updateCharacteristic(this.platform.Characteristic.ContactSensorState, false);
+      }, 3000);
+    } else if (this.accessory.context.device.sensor === 'occupancy) {
+      this.motionSensor.updateCharacteristic(this.platform.Characteristic.OccupancyDetected, true);
+      setTimeout(() => {
+        // push the new value to HomeKit
+        this.motionSensor.updateCharacteristic(this.platform.Characteristic.OccupancyDetected, false);
+      }, 3000);
+    } else if (this.accessory.context.device.sensor === 'leak) {
+      this.motionSensor.updateCharacteristic(this.platform.Characteristic.LeakDetected, true);
+      setTimeout(() => {
+        // push the new value to HomeKit
+        this.motionSensor.updateCharacteristic(this.platform.Characteristic.LeakDetected, false);
+      }, 3000);
     }
+
   }
 
 }
