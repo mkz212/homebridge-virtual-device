@@ -23,7 +23,7 @@ This plugin can be easily installed and configured through Homebridge UI or via 
 ## Configure plugin
 Configure the plugin through the settings UI or directly in the JSON editor.
 
-Basic settings (required):
+Example config.json:
 
 ```json
 {
@@ -33,11 +33,15 @@ Basic settings (required):
       "devices": [
         {
           "name": "Device 1",
-          "type": "switch"
+          "type": "switch",
+          "timer": 10000,
+          "sensor": "motion"
         },
         {
           "name": "Device 2",
-          "type": "dimmer"
+          "type": "dimmer",
+          "timer": 0,
+          "sensor": "off"
         }
       ]
     }
@@ -48,8 +52,8 @@ Basic settings (required):
 - `platform` (string): Tells Homebridge which platform this config belongs to. Leave as is.
 - `name` (string): Name of device, as it will display in HomeKit.
 - `type` (string): Device type, like switch, dimmer, etc.
-- `timer` (integer): Device type, like switch, dimmer, etc.
-- `sensor` (string): Device type, like switch, dimmer, etc.
+- `timer` (integer): Timer in milliseconds. The timer is activated every time the device is turned on. Re-sending the command to turn on when the timer is on will extend the time (reset timer). Leave empty or put 0 to disable timer.
+- `sensor` (string): Add sensor to this device. Sensor will triger for 3 sec. when main device will set to on or off (you can choose). Useful for notifications
 
 
 ## Troubleshooting
