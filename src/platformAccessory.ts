@@ -38,7 +38,7 @@ export class VirtualDeviceAccessory {
 
 
     // set device type
-    if (devConfig.type === 'switch') {
+    if (this.devConfig.type === 'switch') {
       // get the Switch service if it exists, otherwise create a new Switch service
       // you can create multiple services for each accessory
       this.service = this.accessory.getService(this.platform.Service.Switch) || this.accessory.addService(this.platform.Service.Switch);
@@ -61,7 +61,7 @@ export class VirtualDeviceAccessory {
       .onSet(this.setOn.bind(this))                // SET - bind to the `setOn` method below
       .onGet(this.getOn.bind(this));               // GET - bind to the `getOn` method below
 
-    if (devConfig.type !== 'switch') {
+    if (this.devConfig.type !== 'switch') {
       // register handlers for the Brightness Characteristic
       this.service.getCharacteristic(this.platform.Characteristic.Brightness)
         .onSet(this.setBrightness.bind(this));       // SET - bind to the 'setBrightness` method below
