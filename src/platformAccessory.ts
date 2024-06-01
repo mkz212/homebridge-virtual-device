@@ -179,7 +179,7 @@ export class VirtualDeviceAccessory {
    */
   async setValue(value: CharacteristicValue) {
 
-    let offValue = false;
+    let offValue;
 
     if (this.devConfig.type === 'switch') {
       this.states.On = value as boolean;
