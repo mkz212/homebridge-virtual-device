@@ -19,6 +19,8 @@ export class VirtualDeviceAccessory {
     Brightness: 100,
   };
 
+  motionSensor;
+
   constructor(
     private readonly platform: VirtualDevicePlatform,
     private readonly accessory: PlatformAccessory,
@@ -69,34 +71,10 @@ export class VirtualDeviceAccessory {
      * can use the same subtype id.)
      */
 
-    // Example: add two "motion sensor" services to the accessory
-    const motionSensorOneService = this.accessory.getService('Motion Sensor One Name') ||
+    // Add motion sensor
+    this.motionSensor = this.accessory.getService('Motion Sensor One Name') ||
       this.accessory.addService(this.platform.Service.MotionSensor, 'Motion Sensor One Name', 'YourUniqueIdentifier-1');
 
-    const motionSensorTwoService = this.accessory.getService('Motion Sensor Two Name') ||
-      this.accessory.addService(this.platform.Service.MotionSensor, 'Motion Sensor Two Name', 'YourUniqueIdentifier-2');
-
-    /**
-     * Updating characteristics values asynchronously.
-     *
-     * Example showing how to update the state of a Characteristic asynchronously instead
-     * of using the `on('get')` handlers.
-     * Here we change update the motion sensor trigger states on and off every 10 seconds
-     * the `updateCharacteristic` method.
-     *
-     */
-    let motionDetected = false;
-    setInterval(() => {
-      // EXAMPLE - inverse the trigger
-      motionDetected = !motionDetected;
-
-      // push the new value to HomeKit
-      motionSensorOneService.updateCharacteristic(this.platform.Characteristic.MotionDetected, motionDetected);
-      motionSensorTwoService.updateCharacteristic(this.platform.Characteristic.MotionDetected, !motionDetected);
-
-      this.platform.log.debug('Triggering motionSensorOneService:', motionDetected);
-      this.platform.log.debug('Triggering motionSensorTwoService:', !motionDetected);
-    }, 10000);
   }
 
   /**
@@ -107,7 +85,12 @@ export class VirtualDeviceAccessory {
     // implement your own code to turn your device on/off
     this.states.On = value as boolean;
 
-    this.platform.log.debug('Set Characteristic On ->', value);
+    this.platform.log.debug(`[${this.accessory.context.device.name}]: ${(value) ? 'set on' : 'set off'}`);
+
+    // triger motion sensor
+    if (!value) {
+      this.setMotion();
+    }
   }
 
   /**
@@ -127,7 +110,7 @@ export class VirtualDeviceAccessory {
     // implement your own code to check if the device is on
     const isOn = this.states.On;
 
-    this.platform.log.debug('Get Characteristic On ->', isOn);
+    this.platform.log.debug(`[${this.accessory.context.device.name}]: ${(isOn) ? 'on' : 'off'}`);
 
     // if you need to return an error to show the device as "Not Responding" in the Home app:
     // throw new this.platform.api.hap.HapStatusError(this.platform.api.hap.HAPStatus.SERVICE_COMMUNICATION_FAILURE);
@@ -143,7 +126,15 @@ export class VirtualDeviceAccessory {
     // implement your own code to set the brightness
     this.states.Brightness = value as number;
 
-    this.platform.log.debug('Set Characteristic Brightness -> ', value);
+    this.platform.log.debug(`[${this.accessory.context.device.name}]: ${value}%`);
+  }
+
+  async setMotion() {
+    this.motionSensor.updateCharacteristic(this.platform.Characteristic.MotionDetected, true);
+    setTimeout(() => {
+      // push the new value to HomeKit
+      this.motionSensor.updateCharacteristic(this.platform.Characteristic.MotionDetected, false);
+    }, 3000);
   }
 
 }
