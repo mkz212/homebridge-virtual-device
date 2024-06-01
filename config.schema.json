@@ -34,6 +34,12 @@
         				{ "title": "Thermostat", "enum": ["thermostat"] }
         			]
         		},
+            "timer": {
+              "title": "Timer",
+              "description": "Timer.",
+              "type": "integer",
+              "required": false
+            },
             "sensor": {
               "title": "Add sensor",
               "description": "Add sensor to this device. Sensor will triger for 3 sec. when this device will set to off (useful for notifications).",
