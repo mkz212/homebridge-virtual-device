@@ -132,7 +132,7 @@ export class VirtualDeviceAccessory {
   }
 
   async setMotion() {
-    if (accessory.context.device.addSensor) {
+    if (this.accessory.context.device.addSensor) {
       this.motionSensor.updateCharacteristic(this.platform.Characteristic.MotionDetected, true);
       setTimeout(() => {
         // push the new value to HomeKit
