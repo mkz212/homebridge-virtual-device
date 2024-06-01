@@ -227,7 +227,7 @@ export class VirtualDeviceAccessory {
 
 
     // if value !== offValue -> device is set to on
-    if ((value !== offValue) {
+    if (value !== offValue) {
 
       // set timer to change device state
       if (devConfig.timer > 0) {
