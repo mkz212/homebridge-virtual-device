@@ -202,8 +202,8 @@ export class VirtualDeviceAccessory {
 
     this.platform.log.info(`[${this.accessory.context.device.name}]: ${(value) ? 'set on' : 'set off'}`);
 
-    // triger motion sensor if added
-    if (!value) {
+    // triger motion sensor if value false and sensor added
+    if (!value && this.sensor) {
       this.triggerSensor(true);
     }
   }
