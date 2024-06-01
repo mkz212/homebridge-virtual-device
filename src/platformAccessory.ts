@@ -153,25 +153,25 @@ export class VirtualDeviceAccessory {
   }
 
   async triggerSensor() {
-    if (this.accessory.context.device.sensor === 'motion) {
+    if (this.accessory.context.device.sensor === 'motion') {
       this.motionSensor.updateCharacteristic(this.platform.Characteristic.MotionDetected, true);
       setTimeout(() => {
         // push the new value to HomeKit
         this.motionSensor.updateCharacteristic(this.platform.Characteristic.MotionDetected, false);
       }, 3000);
-    } else if (this.accessory.context.device.sensor === 'contact) {
+    } else if (this.accessory.context.device.sensor === 'contact') {
       this.motionSensor.updateCharacteristic(this.platform.Characteristic.ContactSensorState, true);
       setTimeout(() => {
         // push the new value to HomeKit
         this.motionSensor.updateCharacteristic(this.platform.Characteristic.ContactSensorState, false);
       }, 3000);
-    } else if (this.accessory.context.device.sensor === 'occupancy) {
+    } else if (this.accessory.context.device.sensor === 'occupancy') {
       this.motionSensor.updateCharacteristic(this.platform.Characteristic.OccupancyDetected, true);
       setTimeout(() => {
         // push the new value to HomeKit
         this.motionSensor.updateCharacteristic(this.platform.Characteristic.OccupancyDetected, false);
       }, 3000);
-    } else if (this.accessory.context.device.sensor === 'leak) {
+    } else if (this.accessory.context.device.sensor === 'leak') {
       this.motionSensor.updateCharacteristic(this.platform.Characteristic.LeakDetected, true);
       setTimeout(() => {
         // push the new value to HomeKit
