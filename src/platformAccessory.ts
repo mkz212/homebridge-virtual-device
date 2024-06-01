@@ -21,7 +21,7 @@ export class VirtualDeviceAccessory {
 
   devConfig;
   sensor;
-  
+
   constructor(
     private readonly platform: VirtualDevicePlatform,
     private readonly accessory: PlatformAccessory,
