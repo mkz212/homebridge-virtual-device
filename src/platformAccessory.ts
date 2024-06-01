@@ -29,6 +29,7 @@ export class VirtualDeviceAccessory {
   };
 
   devConfig;
+  deviceTimer;
   sensor;
   sensorTimer;
 
@@ -184,47 +185,72 @@ export class VirtualDeviceAccessory {
     if (this.devConfig.type === 'switch') {
       this.states.On = value as boolean;
       offValue = false;
+      this.platform.log.info(`[${this.accessory.context.device.name}]: ${(value) ? 'on' : 'off'}`);
     } else if (this.devConfig.type === 'dimmer') {
       this.states.Brightness = value as number;
       offValue = 0;
+      this.platform.log.info(`[${this.accessory.context.device.name}]: ${value}%`);
     } else if (this.devConfig.type === 'blind') {
       this.states.TargetPosition = value as number;
       this.service.updateCharacteristic(this.platform.Characteristic.CurrentPosition, value);
       offValue = 0;
+      this.platform.log.info(`[${this.accessory.context.device.name}]: ${value}%`);
     } else if (this.devConfig.type === 'garage') {
       this.states.TargetDoorState = value as number;
       this.service.updateCharacteristic(this.platform.Characteristic.CurrentDoorState, value);
       offValue = 0;
+      this.platform.log.info(`[${this.accessory.context.device.name}]: ${value}`);
     } else if (this.devConfig.type === 'lock') {
       this.states.LockTargetState = value as number;
       this.service.updateCharacteristic(this.platform.Characteristic.LockCurrentState, value);
       offValue = 1;
+      this.platform.log.info(`[${this.accessory.context.device.name}]: ${value}`);
     } else if (this.devConfig.type === 'motion') {
       this.states.MotionDetected = value as number;
       offValue = 0;
+      this.platform.log.info(`[${this.accessory.context.device.name}]: ${value}`);
     } else if (this.devConfig.type === 'security') {
       this.states.SecuritySystemTargetState = value as number;
       this.service.updateCharacteristic(this.platform.Characteristic.SecuritySystemCurrentState, value);
       offValue = 3;
+      this.platform.log.info(`[${this.accessory.context.device.name}]: ${value}`);
     } else if (this.devConfig.type === 'thermostat' && value as number <= 2) {
       this.states.TargetHeatingCoolingState = value as number;
       this.service.updateCharacteristic(this.platform.Characteristic.CurrentHeatingCoolingState, value);
       offValue = 0;
+      this.platform.log.info(`[${this.accessory.context.device.name}]: ${value}`);
     } else if (this.devConfig.type === 'thermostat' && value as number >= 10) {
       this.states.TargetTemperature = value as number;
       this.service.updateCharacteristic(this.platform.Characteristic.CurrentTemperature, value);
+      this.platform.log.info(`[${this.accessory.context.device.name}]: ${value}`);
     }
 
-    this.platform.log.info(`[${this.accessory.context.device.name}]: ${value}`);
 
-    // triger motion sensor 
-    // if value !== offValue for sensors To be triggered when device is turned on
-    if ((value !== offValue) && (this.devConfig.sensor === 'motion' || this.devConfig.sensor === 'contact'
-          || this.devConfig.sensor === 'occupancy' || this.devConfig.sensor === 'leak')) {
-      this.triggerSensor(true);
-    } else if (this.devConfig.sensor === 'motion2' || this.devConfig.sensor === 'contact2'
-          || this.devConfig.sensor === 'occupancy2' || this.devConfig.sensor === 'leak2') {
-      this.triggerSensor(true);
+    // if value !== offValue -> device is set to on
+    if ((value !== offValue) {
+
+      // set timer to change device state
+      if (devConfig.timer > 0) {
+        clearTimeout(this.deviceTimer);
+        this.deviceTimer = setTimeout(() => {
+          this.setValue(offValue);
+        }, 10000);
+      }
+
+      // triger motion when device is on
+      if (this.devConfig.sensor === 'motion' || this.devConfig.sensor === 'contact'
+            || this.devConfig.sensor === 'occupancy' || this.devConfig.sensor === 'leak')) {
+        this.triggerSensor(true);
+      }
+
+    } else {
+
+      // triger motion when device is off
+      if (this.devConfig.sensor === 'motion2' || this.devConfig.sensor === 'contact2'
+            || this.devConfig.sensor === 'occupancy2' || this.devConfig.sensor === 'leak2') {
+        this.triggerSensor(true);
+      }
+
     }
   }
 
