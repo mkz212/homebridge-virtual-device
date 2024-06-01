@@ -26,10 +26,10 @@
         			"oneOf": [
         				{ "title": "Switch", "enum": ["switch"] },
         				{ "title": "Dimmer", "enum": ["dimmer"] },
-        				{ "title": "Blind", "enum": ["blind"] },
+        				{ "title": "Blind / roller shutter", "enum": ["blind"] },
         				{ "title": "Motion", "enum": ["motion"] },
         				{ "title": "Lock", "enum": ["lock"] },
-        				{ "title": "Contact", "enum": ["contact"] },
+        				{ "title": "Garage door", "enum": ["garage"] },
         				{ "title": "Security", "enum": ["security"] },
         				{ "title": "Thermostat", "enum": ["thermostat"] }
         			]
