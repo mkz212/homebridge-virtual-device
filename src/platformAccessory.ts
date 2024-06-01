@@ -57,7 +57,7 @@ export class VirtualDeviceAccessory {
       this.service.getCharacteristic(this.platform.Characteristic.Brightness)
         .onSet(this.setBrightness.bind(this));       // SET - bind to the 'setBrightness` method below
     }
-    
+
     /**
      * Creating multiple services of the same type.
      *
