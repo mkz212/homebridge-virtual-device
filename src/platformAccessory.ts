@@ -21,13 +21,13 @@ export class VirtualDeviceAccessory {
     TargetPosition: 0,
     CurrentDoorState: 0,
     TargetDoorState: 0,
-    MotionDetected,
-    LockCurrentState,
-    LockTargetState,
-    SecuritySystemCurrentState,
-    SecuritySystemTargetState,
-    CurrentHeatingCoolingState,
-    TargetHeatingCoolingState,
+    MotionDetected: 0,
+    LockCurrentState: 0,
+    LockTargetState: 0,
+    SecuritySystemCurrentState: 0,
+    SecuritySystemTargetState: 0,
+    CurrentHeatingCoolingState: 0,
+    TargetHeatingCoolingState: 0,
   };
 
   devConfig;
