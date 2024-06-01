@@ -18,32 +18,22 @@
               "required": true
             },
             "type": {
-              "title": "Type",
-              "description": "Type of device: switch, dimmer, etc.",
-              "type": "string",
-              "required": true,
-              "default": "switch",
-              "oneOf": [
-                {
-                  "title": "Switch",
-                  "enum": [
-                    "switch"
-                  ]
-                },
-                {
-                  "title": "Dimmer",
-                  "enum": [
-                    "dimmer"
-                  ]
-                },
-                {
-                  "title": "Blind",
-                  "enum": [
-                    "blind"
-                  ]
-                }
-              ]
-            },
+        			"title": "Type",
+        			"description": "Select type of the sensor.",
+        			"type": "string",
+        			"default": "switch",
+        			"required": true,
+        			"oneOf": [
+        				{ "title": "Switch", "enum": ["switch"] },
+        				{ "title": "Dimmer", "enum": ["dimmer"] },
+        				{ "title": "Blind", "enum": ["blind"] },
+        				{ "title": "Motion", "enum": ["motion"] },
+        				{ "title": "Lock", "enum": ["lock"] },
+        				{ "title": "Contact", "enum": ["contact"] },
+        				{ "title": "Security", "enum": ["security"] },
+        				{ "title": "Thermostat", "enum": ["thermostat"] }
+        			]
+        		},
             "sensor": {
               "title": "Add sensor",
               "description": "Add sensor to this device. Sensor will triger for 3 sec. when this device will set to off (useful for notifications).",
