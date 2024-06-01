@@ -26,6 +26,9 @@ export class VirtualDeviceAccessory {
     private readonly accessory: PlatformAccessory,
   ) {
 
+    // check current config for device
+    const devConfig = this.platform.config.devices.find((item) => item.name === accessory.context.device.name) || {};
+
     // set accessory information
     this.accessory.getService(this.platform.Service.AccessoryInformation)!
       .setCharacteristic(this.platform.Characteristic.Manufacturer, 'Homebridge Virtual Device')
@@ -34,7 +37,7 @@ export class VirtualDeviceAccessory {
 
 
     // set device type
-    if (accessory.context.device.type === 'switch') {
+    if (devConfig.type === 'switch') {
       // get the Switch service if it exists, otherwise create a new Switch service
       // you can create multiple services for each accessory
       this.service = this.accessory.getService(this.platform.Service.Switch) || this.accessory.addService(this.platform.Service.Switch);
@@ -57,7 +60,7 @@ export class VirtualDeviceAccessory {
       .onSet(this.setOn.bind(this))                // SET - bind to the `setOn` method below
       .onGet(this.getOn.bind(this));               // GET - bind to the `getOn` method below
 
-    if (accessory.context.device.type !== 'switch') {
+    if (devConfig.type !== 'switch') {
       // register handlers for the Brightness Characteristic
       this.service.getCharacteristic(this.platform.Characteristic.Brightness)
         .onSet(this.setBrightness.bind(this));       // SET - bind to the 'setBrightness` method below
@@ -74,8 +77,6 @@ export class VirtualDeviceAccessory {
      * can use the same subtype id.)
      */
 
-    // check current config for device
-    const devConfig = this.platform.config.devices.find((item) => item.name === accessory.context.device.name) || {};
 
     // add sensor
     if (devConfig.sensor === 'motion') {
@@ -156,25 +157,25 @@ export class VirtualDeviceAccessory {
   }
 
   async triggerSensor() {
-    if (this.accessory.context.device.sensor === 'motion') {
+    if (this.devConfig.sensor === 'motion') {
       this.motionSensor.updateCharacteristic(this.platform.Characteristic.MotionDetected, true);
       setTimeout(() => {
         // push the new value to HomeKit
         this.motionSensor.updateCharacteristic(this.platform.Characteristic.MotionDetected, false);
       }, 3000);
-    } else if (this.accessory.context.device.sensor === 'contact') {
+    } else if (this.devConfig.sensor === 'contact') {
       this.motionSensor.updateCharacteristic(this.platform.Characteristic.ContactSensorState, true);
       setTimeout(() => {
         // push the new value to HomeKit
         this.motionSensor.updateCharacteristic(this.platform.Characteristic.ContactSensorState, false);
       }, 3000);
-    } else if (this.accessory.context.device.sensor === 'occupancy') {
+    } else if (this.devConfig.sensor === 'occupancy') {
       this.motionSensor.updateCharacteristic(this.platform.Characteristic.OccupancyDetected, true);
       setTimeout(() => {
         // push the new value to HomeKit
         this.motionSensor.updateCharacteristic(this.platform.Characteristic.OccupancyDetected, false);
       }, 3000);
-    } else if (this.accessory.context.device.sensor === 'leak') {
+    } else if (this.devConfig.sensor === 'leak') {
       this.motionSensor.updateCharacteristic(this.platform.Characteristic.LeakDetected, true);
       setTimeout(() => {
         // push the new value to HomeKit
