@@ -22,6 +22,7 @@ export class VirtualDeviceAccessory {
   constructor(
     private readonly platform: VirtualDevicePlatform,
     private readonly accessory: PlatformAccessory,
+    this.motionSensor,
   ) {
 
     // set accessory information
@@ -70,7 +71,7 @@ export class VirtualDeviceAccessory {
      */
 
     // Add motion sensor
-    const motionSensorOneService = this.accessory.getService('Motion Sensor One Name') ||
+    motionSensor = this.accessory.getService('Motion Sensor One Name') ||
       this.accessory.addService(this.platform.Service.MotionSensor, 'Motion Sensor One Name', 'YourUniqueIdentifier-1');
 
     
@@ -89,7 +90,7 @@ export class VirtualDeviceAccessory {
 
     // triger motion sensor
     if (!value) {
-      setMotion()
+      this.setMotion()
     }
   }
 
@@ -130,10 +131,10 @@ export class VirtualDeviceAccessory {
   }
 
   async setMotion() {
-    this.motionSensorOneService.updateCharacteristic(this.platform.Characteristic.MotionDetected, true);
+    this.motionSensor.updateCharacteristic(this.platform.Characteristic.MotionDetected, true);
     setTimeout(() => {
       // push the new value to HomeKit
-      this.motionSensorOneService.updateCharacteristic(this.platform.Characteristic.MotionDetected, false);
+      this.motionSensor.updateCharacteristic(this.platform.Characteristic.MotionDetected, false);
     }, 3000);
   }
 
