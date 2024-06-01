@@ -117,9 +117,8 @@ export class VirtualDevicePlatform implements DynamicPlatformPlugin {
       // cached devices that do not exist in config.
       for (const cachedAccessory of this.accessories) {
         if (cachedAccessory.context.device) {
-          const guid = cachedAccessory.context.device.name;
-          const cachedDevice = devices.find((device: any) => device.name === guid);
-          
+          const cachedDevice = devices.find(el => el.name === cachedAccessory.context.device.name);
+
           if (cachedDevice === undefined) {
             // This cached devices does not exist in config.
             this.log.info(`Removing device '${cachedAccessory.displayName}'`
@@ -128,7 +127,7 @@ export class VirtualDevicePlatform implements DynamicPlatformPlugin {
           }
         }
       }
-      
+
     }
   }
 }
