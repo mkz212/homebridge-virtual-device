@@ -40,16 +40,13 @@ export class VirtualDeviceAccessory {
 
 
     // set device type
-    if (this.devConfig.type === 'switch') {
-      this.service = this.accessory.getService(this.platform.Service.Switch) || this.accessory.addService(this.platform.Service.Switch);
-    } else if (this.devConfig.type === 'dimmer') {
+    if (this.devConfig.type === 'dimmer') {
       this.service = this.accessory.getService(this.platform.Service.Lightbulb) || this.accessory.addService(this.platform.Service.Lightbulb);
     } else if (this.devConfig.type === 'blind') {
       this.service = this.accessory.getService(this.platform.Service.WindowCovering) || this.accessory.addService(this.platform.Service.WindowCovering);
     } else {
       this.service = this.accessory.getService(this.platform.Service.Switch) || this.accessory.addService(this.platform.Service.Switch);
-    }
-      
+    } 
 
     // set the service name, this is what is displayed as the default name on the Home app
     // in this example we are using the name we stored in the `accessory.context` in the `discoverDevices` method.
