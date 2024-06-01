@@ -24,6 +24,8 @@ export class VirtualDeviceAccessory {
     SecuritySystemTargetState: 0,
     CurrentHeatingCoolingState: 0,
     TargetHeatingCoolingState: 0,
+    CurrentTemperature: 0,
+    TargetTemperature: 0,
   };
 
   devConfig;
@@ -117,6 +119,8 @@ export class VirtualDeviceAccessory {
     if (this.devConfig.type === 'thermostat') {
       // register handlers for the Position Characteristic
       this.service.getCharacteristic(this.platform.Characteristic.TargetHeatingCoolingState)
+        .onSet(this.setValue.bind(this));       // SET - bind to the 'setValue` method below
+      this.service.getCharacteristic(this.platform.Characteristic.TargetTemperature)
         .onSet(this.setValue.bind(this));       // SET - bind to the 'setValue` method below
     }
 
@@ -252,6 +256,8 @@ export class VirtualDeviceAccessory {
     } else if (this.devConfig.type === 'thermostat') {
       this.states.TargetHeatingCoolingState = value as number;
       this.service.updateCharacteristic(this.platform.Characteristic.CurrentHeatingCoolingState, value);
+      this.states.TargetTemperature = value as number;
+      this.service.updateCharacteristic(this.platform.Characteristic.CurrentTemperature, value);
     }
 
     this.platform.log.info(`[${this.accessory.context.device.name}]: ${value}`);
