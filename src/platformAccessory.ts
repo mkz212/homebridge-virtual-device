@@ -178,7 +178,7 @@ export class VirtualDeviceAccessory {
 
     // triger motion sensor if added
     if (!value) {
-      this.triggerSensor();
+      this.triggerSensor(true);
     }
   }
 
@@ -250,7 +250,7 @@ export class VirtualDeviceAccessory {
 
     if (value) {
       clearTimeout(sensorTimer);
-      sensorTimer = setTimeout(this.triggerSensor(false), 3000);
+      this.sensorTimer = setTimeout(this.triggerSensor(false), 3000);
     }
 
   }
