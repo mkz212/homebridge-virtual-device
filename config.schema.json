@@ -42,7 +42,7 @@
             },
             "sensor": {
               "title": "Add sensor",
-              "description": "Add sensor to this device. Sensor will triger for 3 sec. when this device will set to off (useful for notifications).",
+              "description": "Add sensor to this device. Sensor will triger for 3 sec. when main device will set to on or off (you can choose). Useful for notifications.",
               "type": "string",
               "required": true,
               "default": "off",
