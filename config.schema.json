@@ -36,7 +36,7 @@
         		},
             "timer": {
               "title": "Timer",
-              "description": "Timer.",
+              "description": "Timer in milliseconds. The timer is activated every time the device is turned on. Re-sending the command to turn on when the timer is on will extend the time (reset timer). Leave empty or put 0 to disable timer.",
               "type": "integer",
               "required": false
             },
