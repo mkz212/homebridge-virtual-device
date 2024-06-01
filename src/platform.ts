@@ -112,6 +112,22 @@ export class VirtualDevicePlatform implements DynamicPlatformPlugin {
         // link the accessory to your platform
         this.api.registerPlatformAccessories(PLUGIN_NAME, PLATFORM_NAME, [accessory]);
       }
+
+      // At this point, we set up all devices from but we did not unregister
+      // cached devices that do not exist in config.
+      for (const cachedAccessory of this.accessories) {
+        if (cachedAccessory.context.device) {
+          const cachedDevice = devices.find(el => el.name === cachedAccessory.context.device.name);
+
+          if (cachedDevice === undefined) {
+            // This cached devices does not exist in config.
+            this.log.info(`Removing device '${cachedAccessory.displayName}'`
+                            + 'because it does not exist in config.');
+            this.api.unregisterPlatformAccessories(PLUGIN_NAME, PLATFORM_NAME, [cachedAccessory]);
+          }
+        }
+      }
+
     }
   }
 }
