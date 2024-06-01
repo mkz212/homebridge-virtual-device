@@ -256,7 +256,7 @@ export class VirtualDeviceAccessory {
     } else if (this.devConfig.type === 'thermostat') {
       this.states.TargetHeatingCoolingState = value as number;
       this.service.updateCharacteristic(this.platform.Characteristic.CurrentHeatingCoolingState, value);
-      this.states.TargetHTemperature = value as number;
+      this.states.TargetTemperature = value as number;
       this.service.updateCharacteristic(this.platform.Characteristic.CurrentTemperature, value);
     }
 
