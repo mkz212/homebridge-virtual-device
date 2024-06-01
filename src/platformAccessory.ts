@@ -75,7 +75,7 @@ export class VirtualDeviceAccessory {
      */
 
     // remove sensor if off or if changed type
-    if (this.accessory.getService('sensor').subtype !== accessory.context.device.sensor){
+    if (this.accessory.getService('sensor')?.subtype !== accessory.context.device.sensor){
       const removeService = this.accessory.getService('sensor');
       if (removeService) {
         this.accessory.removeService(removeService);
