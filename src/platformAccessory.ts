@@ -164,9 +164,10 @@ export class VirtualDeviceAccessory {
     if (this.devConfig.type === 'dimmer') {
       this.states.Brightness = value as number;
     } else if (this.devConfig.type === 'blind') {
-      this.states.CurrentPosition = value as number;
       this.states.TargetPosition = value as number;
-    }
+      this.service.updateCharacteristic(this.platform.Characteristic.CurrentPosition, value);
+	  }
+  }
 
     this.platform.log.info(`[${this.accessory.context.device.name}]: ${value}%`);
   }
