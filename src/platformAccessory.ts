@@ -19,6 +19,8 @@ export class VirtualDeviceAccessory {
     Brightness: 0,
     CurrentPosition: 0,
     TargetPosition: 0,
+    CurrentDoorState: 0,
+    TargetDoorState: 0,
   };
 
   devConfig;
@@ -35,7 +37,7 @@ export class VirtualDeviceAccessory {
     // set accessory information
     this.accessory.getService(this.platform.Service.AccessoryInformation)!
       .setCharacteristic(this.platform.Characteristic.Manufacturer, 'Homebridge Virtual Device')
-      .setCharacteristic(this.platform.Characteristic.Model, accessory.context.device.type || 'type')
+      .setCharacteristic(this.platform.Characteristic.Model, devConfig.type || 'type')
       .setCharacteristic(this.platform.Characteristic.SerialNumber, accessory.context.device.uuid || 'uuid');
 
 
@@ -44,6 +46,8 @@ export class VirtualDeviceAccessory {
       this.service = this.accessory.getService(this.platform.Service.Lightbulb) || this.accessory.addService(this.platform.Service.Lightbulb);
     } else if (this.devConfig.type === 'blind') {
       this.service = this.accessory.getService(this.platform.Service.WindowCovering) || this.accessory.addService(this.platform.Service.WindowCovering);
+    } else if (this.devConfig.type === 'garage') {
+      this.service = this.accessory.getService(this.platform.Service.GarageDoorOpener) || this.accessory.addService(this.platform.Service.GarageDoorOpener);
     } else {
       this.service = this.accessory.getService(this.platform.Service.Switch) || this.accessory.addService(this.platform.Service.Switch);
     }
@@ -57,9 +61,11 @@ export class VirtualDeviceAccessory {
     // see https://developers.homebridge.io/#/service/Lightbulb
 
     // register handlers for the On/Off Characteristic
-    this.service.getCharacteristic(this.platform.Characteristic.On)
-      .onSet(this.setOn.bind(this))                // SET - bind to the `setOn` method below
-      .onGet(this.getOn.bind(this));               // GET - bind to the `getOn` method below
+    if (this.devConfig.type === 'switch' || this.devConfig.type === 'dimmer') {
+      this.service.getCharacteristic(this.platform.Characteristic.On)
+        .onSet(this.setOn.bind(this))                // SET - bind to the `setOn` method below
+        .onGet(this.getOn.bind(this));               // GET - bind to the `getOn` method below
+    }
 
     if (this.devConfig.type === 'dimmer') {
       // register handlers for the Brightness Characteristic
@@ -70,6 +76,12 @@ export class VirtualDeviceAccessory {
     if (this.devConfig.type === 'blind') {
       // register handlers for the Position Characteristic
       this.service.getCharacteristic(this.platform.Characteristic.TargetPosition)
+        .onSet(this.setValue.bind(this));       // SET - bind to the 'setValue` method below
+    }
+
+    if (this.devConfig.type === 'garage') {
+      // register handlers for the Position Characteristic
+      this.service.getCharacteristic(this.platform.Characteristic.TargetDoorState)
         .onSet(this.setValue.bind(this));       // SET - bind to the 'setValue` method below
     }
 
@@ -166,6 +178,9 @@ export class VirtualDeviceAccessory {
     } else if (this.devConfig.type === 'blind') {
       this.states.TargetPosition = value as number;
       this.service.updateCharacteristic(this.platform.Characteristic.CurrentPosition, value);
+    } else if (this.devConfig.type === 'garage') {
+      this.states.TargetDoorState = value as number;
+      this.service.updateCharacteristic(this.platform.Characteristic.CurrentDoorState, value);
     }
 
     this.platform.log.info(`[${this.accessory.context.device.name}]: ${value}%`);
