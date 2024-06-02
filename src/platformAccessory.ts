@@ -33,7 +33,7 @@ export class VirtualDeviceAccessory {
   sensor;
   sensorTimer;
 
-  
+
 
   constructor(
     private readonly platform: VirtualDevicePlatform,
@@ -41,7 +41,7 @@ export class VirtualDeviceAccessory {
   ) {
 
     let offValue;
-    let onValue
+    let onValue;
 
     if (this.devConfig.type === 'switch') {
       onValue = true;
@@ -248,9 +248,9 @@ export class VirtualDeviceAccessory {
       this.platform.log.info(`[${this.accessory.context.device.name}]: ${value}`);
     }
 
-    
+
     clearTimeout(this.deviceTimer);
-    
+
     // if value !== offValue -> device is set to on
     if (value !== offValue) {
 
@@ -299,15 +299,15 @@ export class VirtualDeviceAccessory {
 
   convertTime(time) {
 
-    time = time.split("-");
+    time = time.split('-');
 
-  	if (time[1] == 's') {
+  	if (time[1] === 's') {
   		return parseInt(time[0]) * 1000;
-  	} else if (time[1] == 'm') {
+  	} else if (time[1] === 'm') {
   		return parseInt(time[0]) * 60000;
-  	} else if (time[1] == 'h') {
+  	} else if (time[1] === 'h') {
   		return parseInt(time[0]) * 3600000;
-  	} else if (time[1] == 'd') {
+  	} else if (time[1] === 'd') {
   		return parseInt(time[0]) * 86400000;
   	} else {
       return parseInt(time[0]);
