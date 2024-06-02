@@ -258,7 +258,7 @@ export class VirtualDeviceAccessory {
       if (this.devConfig.timer > 0) {
         this.deviceTimer = setTimeout(() => {
           this.setValue(offValue);
-        }, this.convertTime(this.devConfig.timer || 0));
+        }, this.convertTime(this.devConfig.timer);
       }
 
       // triger motion when device is on
@@ -302,15 +302,15 @@ export class VirtualDeviceAccessory {
     time = time.split("-");
 
   	if (time[1] == 's') {
-  		return time[0] * 1000;
+  		return parseInt(time[0]) * 1000;
   	} else if (time[1] == 'm') {
-  		return time[0] * 60000;
+  		return parseInt(time[0]) * 60000;
   	} else if (time[1] == 'h') {
-  		return time[0] * 3600000;
+  		return parseInt(time[0]) * 3600000;
   	} else if (time[1] == 'd') {
-  		return time[0] * 86400000;
+  		return parseInt(time[0]) * 86400000;
   	} else {
-      return time[0];
+      return parseInt(time[0]);
     }
     
   }
