@@ -281,12 +281,12 @@ export class VirtualDeviceAccessory {
     }
 
     // if value !== offValue -> device is set to on
-    if (value !== offValue) {
+    if (value !== this.offValue) {
 
       // set timer to change device state
       if (!this.deviceTimer && this.devConfig.timerType === 'whenOn' && this.devConfig.timerTime > 0) {
         this.deviceTimer = setTimeout(() => {
-          this.setValue(offValue);
+          this.setValue(this.offValue);
         }, this.convertTime());
       }
 
@@ -300,7 +300,7 @@ export class VirtualDeviceAccessory {
       // set timer to change device state
       if (!this.deviceTimer && this.devConfig.timerType === 'whenOff' && this.devConfig.timerTime > 0) {
         this.deviceTimer = setTimeout(() => {
-          this.setValue(onValue);
+          this.setValue(this.onValue);
         }, this.convertTime());
       }
 
