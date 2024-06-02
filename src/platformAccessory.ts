@@ -33,10 +33,41 @@ export class VirtualDeviceAccessory {
   sensor;
   sensorTimer;
 
+  
+
   constructor(
     private readonly platform: VirtualDevicePlatform,
     private readonly accessory: PlatformAccessory,
   ) {
+
+    let offValue;
+    let onValue
+
+    if (this.devConfig.type === 'switch') {
+      onValue = true;
+      offValue = false;
+    } else if (this.devConfig.type === 'dimmer') {
+      onValue = 100;
+      offValue = 0;
+    } else if (this.devConfig.type === 'blind') {
+      onValue = 100;
+      offValue = 0;
+    } else if (this.devConfig.type === 'garage') {
+      onValue = 1;
+      offValue = 0;
+    } else if (this.devConfig.type === 'lock') {
+      onValue = 0;
+      offValue = 1;
+    } else if (this.devConfig.type === 'motion') {
+      onValue = 1;
+      offValue = 0;
+    } else if (this.devConfig.type === 'security') {
+      onValue = 0;
+      offValue = 3;
+    } else if (this.devConfig.type === 'thermostat' && value as number <= 2) {
+      onValue = 1;
+      offValue = 0;
+    }
 
     // check current config for device
     this.devConfig = this.platform.config.devices.find((item) => item.name === accessory.context.device.name) || {};
@@ -184,40 +215,32 @@ export class VirtualDeviceAccessory {
 
     if (this.devConfig.type === 'switch') {
       this.states.On = value as boolean;
-      offValue = false;
       this.platform.log.info(`[${this.accessory.context.device.name}]: ${(value) ? 'on' : 'off'}`);
     } else if (this.devConfig.type === 'dimmer') {
       this.states.Brightness = value as number;
-      offValue = 0;
       this.platform.log.info(`[${this.accessory.context.device.name}]: ${value}%`);
     } else if (this.devConfig.type === 'blind') {
       this.states.TargetPosition = value as number;
       this.service.updateCharacteristic(this.platform.Characteristic.CurrentPosition, value);
-      offValue = 0;
       this.platform.log.info(`[${this.accessory.context.device.name}]: ${value}%`);
     } else if (this.devConfig.type === 'garage') {
       this.states.TargetDoorState = value as number;
       this.service.updateCharacteristic(this.platform.Characteristic.CurrentDoorState, value);
-      offValue = 0;
       this.platform.log.info(`[${this.accessory.context.device.name}]: ${value}`);
     } else if (this.devConfig.type === 'lock') {
       this.states.LockTargetState = value as number;
       this.service.updateCharacteristic(this.platform.Characteristic.LockCurrentState, value);
-      offValue = 1;
       this.platform.log.info(`[${this.accessory.context.device.name}]: ${value}`);
     } else if (this.devConfig.type === 'motion') {
       this.states.MotionDetected = value as number;
-      offValue = 0;
       this.platform.log.info(`[${this.accessory.context.device.name}]: ${value}`);
     } else if (this.devConfig.type === 'security') {
       this.states.SecuritySystemTargetState = value as number;
       this.service.updateCharacteristic(this.platform.Characteristic.SecuritySystemCurrentState, value);
-      offValue = 3;
       this.platform.log.info(`[${this.accessory.context.device.name}]: ${value}`);
     } else if (this.devConfig.type === 'thermostat' && value as number <= 2) {
       this.states.TargetHeatingCoolingState = value as number;
       this.service.updateCharacteristic(this.platform.Characteristic.CurrentHeatingCoolingState, value);
-      offValue = 0;
       this.platform.log.info(`[${this.accessory.context.device.name}]: ${value}`);
     } else if (this.devConfig.type === 'thermostat' && value as number >= 10) {
       this.states.TargetTemperature = value as number;
@@ -225,16 +248,17 @@ export class VirtualDeviceAccessory {
       this.platform.log.info(`[${this.accessory.context.device.name}]: ${value}`);
     }
 
-
+    
+    clearTimeout(this.deviceTimer);
+    
     // if value !== offValue -> device is set to on
     if (value !== offValue) {
 
       // set timer to change device state
       if (this.devConfig.timer > 0) {
-        clearTimeout(this.deviceTimer);
         this.deviceTimer = setTimeout(() => {
           this.setValue(offValue);
-        }, this.devConfig.timer);
+        }, convertTime(this.devConfig.timer));
       }
 
       // triger motion when device is on
@@ -271,6 +295,24 @@ export class VirtualDeviceAccessory {
         this.triggerSensor(false);
       }, 3000);
     }
+  }
+
+  async convertTime(time) {
+
+    time = time.split("-");
+
+  	if (time[1] == 's') {
+  		return time[0] * 1000;
+  	} else if (time[1] == 'm') {
+  		return time[0] * 60000;
+  	} else if (time[1] == 'h') {
+  		return time[0] * 3600000;
+  	} else if (time[1] == 'd') {
+  		return time[0] * 86400000;
+  	} else {
+      return time[0];
+    }
+    
   }
 
 }
