@@ -208,7 +208,7 @@ export class VirtualDeviceAccessory {
      */
 
     // remove sensor if it is set to off or if need to change type
-    if (this.devConfig.sensor === 'disabled' 
+    if (this.devConfig.sensor === 'disabled'
         || (this.accessory.getService('sensor')?.subtype !== this.devConfig.sensorType)) {
       const removeService = this.accessory.getService('sensor');
       if (removeService) {
@@ -243,8 +243,6 @@ export class VirtualDeviceAccessory {
    * These are sent when the user changes the state of an accessory, for example, changing the Brightness
    */
   async setValue(value: CharacteristicValue) {
-
-    let offValue;
 
     if (this.devConfig.type === 'switch') {
       this.states.On = value as boolean;
