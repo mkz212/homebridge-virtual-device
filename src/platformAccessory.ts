@@ -43,8 +43,8 @@ export class VirtualDeviceAccessory {
     // check current config for device
     this.devConfig = this.platform.config.devices.find((item) => item.name === accessory.context.device.name) || {};
 
-    let offValue;
-    let onValue;
+    this.offValue;
+    this.onValue;
 
     if (this.devConfig.type === 'switch') {
       onValue = true;
