@@ -298,21 +298,19 @@ export class VirtualDeviceAccessory {
   }
 
   convertTime(time) {
-
     time = time.split('-');
-
-  	if (time[1] === 's') {
-  		return parseInt(time[0]) * 1000;
-  	} else if (time[1] === 'm') {
-  		return parseInt(time[0]) * 60000;
-  	} else if (time[1] === 'h') {
-  		return parseInt(time[0]) * 3600000;
-  	} else if (time[1] === 'd') {
-  		return parseInt(time[0]) * 86400000;
-  	} else {
+    
+    if (time[1] === 's') {
+      return parseInt(time[0]) * 1000;
+    } else if (time[1] === 'm') {
+      return parseInt(time[0]) * 60000;
+    } else if (time[1] === 'h') {
+      return parseInt(time[0]) * 3600000;
+    } else if (time[1] === 'd') {
+      return parseInt(time[0]) * 86400000;
+    } else {
       return parseInt(time[0]);
     }
-    
   }
 
 }
