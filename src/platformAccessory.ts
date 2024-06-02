@@ -256,10 +256,9 @@ export class VirtualDeviceAccessory {
 
       // set timer to change device state
       if (this.devConfig.timer > 0) {
-        let timer = this.devConfig.timer;
         this.deviceTimer = setTimeout(() => {
           this.setValue(offValue);
-        }, this.convertTime(timer));
+        }, this.convertTime(this.devConfig.timer));
       }
 
       // triger motion when device is on
@@ -298,7 +297,7 @@ export class VirtualDeviceAccessory {
     }
   }
 
-  async convertTime(time) {
+  convertTime(time) {
 
     time = time.split("-");
 
