@@ -72,9 +72,6 @@ export class VirtualDeviceAccessory {
       offValue = 0;
     }
 
-    this.platform.log.info(onValue);
-    this.platform.log.info(offValue);
-
 
     // set accessory information
     this.accessory.getService(this.platform.Service.AccessoryInformation)!
@@ -167,7 +164,7 @@ export class VirtualDeviceAccessory {
         this.service.updateCharacteristic(this.platform.Characteristic.CurrentTemperature, 10);
         this.service.updateCharacteristic(this.platform.Characteristic.TargetTemperature, 10);
       }
-    } else {if (this.devConfig.startupValue === 'on') {
+    } else if (this.devConfig.startupValue === 'on') {
         if (this.devConfig.type === 'switch') {
           this.service.updateCharacteristic(this.platform.Characteristic.On, onValue);
         } else if (this.devConfig.type === 'dimmer') {
