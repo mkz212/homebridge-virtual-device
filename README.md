@@ -52,7 +52,7 @@ Example config.json:
 - `platform` (string): Tells Homebridge which platform this config belongs to. Leave as is.
 - `name` (string): Name of device, as it will display in HomeKit.
 - `type` (string): Device type, like switch, dimmer, etc.
-- `timer` (integer): Timer in milliseconds. The timer is activated every time the device is turned on. Re-sending the command to turn on when the timer is on will extend the time (reset timer). Leave empty or put 0 to disable timer.
+- `timer` (integer): Leave empty or put 0 to disable timer. Set integer to miliseconds or add one of: -s -m -h -d. '120-s' will set to 120 seconds, '30-m' will set to 30 minutes, '2-h' will set to 2 hours, '1-d' will set to one day, integer value will set to miliseconds ('10000' will set to 10000 miliseconds). The timer is activated every time the device is turned on. Re-sending the command to turn on when the timer is on will extend the time (reset timer).
 - `sensor` (string): Add sensor to this device. Sensor will triger for 3 sec. when main device will set to on or off (you can choose). Useful for notifications
 
 
