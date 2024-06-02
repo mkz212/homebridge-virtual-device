@@ -18,25 +18,65 @@
               "required": true
             },
             "type": {
-        			"title": "Type",
-        			"description": "Select type of the sensor.",
-        			"type": "string",
-        			"default": "switch",
-        			"required": true,
-        			"oneOf": [
-        				{ "title": "Switch", "enum": ["switch"] },
-        				{ "title": "Dimmer", "enum": ["dimmer"] },
-        				{ "title": "Blind / roller shutter", "enum": ["blind"] },
-        				{ "title": "Motion", "enum": ["motion"] },
-        				{ "title": "Lock", "enum": ["lock"] },
-        				{ "title": "Garage door", "enum": ["garage"] },
-        				{ "title": "Security", "enum": ["security"] },
-        				{ "title": "Thermostat", "enum": ["thermostat"] }
-        			]
-        		},
+              "title": "Type",
+              "description": "Select type of the sensor.",
+              "type": "string",
+              "default": "switch",
+              "required": true,
+              "oneOf": [
+                {
+                  "title": "Switch",
+                  "enum": [
+                    "switch"
+                  ]
+                },
+                {
+                  "title": "Dimmer",
+                  "enum": [
+                    "dimmer"
+                  ]
+                },
+                {
+                  "title": "Blind / roller shutter",
+                  "enum": [
+                    "blind"
+                  ]
+                },
+                {
+                  "title": "Motion",
+                  "enum": [
+                    "motion"
+                  ]
+                },
+                {
+                  "title": "Lock",
+                  "enum": [
+                    "lock"
+                  ]
+                },
+                {
+                  "title": "Garage door",
+                  "enum": [
+                    "garage"
+                  ]
+                },
+                {
+                  "title": "Security",
+                  "enum": [
+                    "security"
+                  ]
+                },
+                {
+                  "title": "Thermostat",
+                  "enum": [
+                    "thermostat"
+                  ]
+                }
+              ]
+            },
             "timer": {
               "title": "Timer",
-              "description": "Timer in milliseconds. The timer is activated every time the device is turned on. Re-sending the command to turn on when the timer is on will extend the time (reset timer). Leave empty or put 0 to disable timer.",
+              "description": "Leave empty or put 0 to disable timer. Set integer to miliseconds or add one of: -s -m -h -d. '120-s' will set to 120 seconds, '30-m' will set to 30 minutes, '2-h' will set to 2 hours, '1-d' will set to one day, integer value will set to miliseconds ('10000' will set to 10000 miliseconds). The timer is activated every time the device is turned on. Re-sending the command to turn on when the timer is on will extend the time (reset timer).",
               "type": "integer",
               "required": false
             },
@@ -47,15 +87,60 @@
               "required": true,
               "default": "off",
               "oneOf": [
-                { "title": "Off", "enum": ["off"] },
-                { "title": "Motion", "enum": ["motion"] },
-                { "title": "Motion - trigger when off", "enum": ["motion2"] },
-                { "title": "Contact", "enum": ["contact"] },
-                { "title": "Contact - trigger when off", "enum": ["contact2"] },
-                { "title": "Occupancy", "enum": ["occupancy"] },
-                { "title": "Occupancy - trigger when off", "enum": ["occupancy2"] },
-                { "title": "Leak", "enum": ["leak"] },
-                { "title": "Leak - trigger when off", "enum": ["leak2"] }
+                {
+                  "title": "Off",
+                  "enum": [
+                    "off"
+                  ]
+                },
+                {
+                  "title": "Motion",
+                  "enum": [
+                    "motion"
+                  ]
+                },
+                {
+                  "title": "Motion - trigger when off",
+                  "enum": [
+                    "motion2"
+                  ]
+                },
+                {
+                  "title": "Contact",
+                  "enum": [
+                    "contact"
+                  ]
+                },
+                {
+                  "title": "Contact - trigger when off",
+                  "enum": [
+                    "contact2"
+                  ]
+                },
+                {
+                  "title": "Occupancy",
+                  "enum": [
+                    "occupancy"
+                  ]
+                },
+                {
+                  "title": "Occupancy - trigger when off",
+                  "enum": [
+                    "occupancy2"
+                  ]
+                },
+                {
+                  "title": "Leak",
+                  "enum": [
+                    "leak"
+                  ]
+                },
+                {
+                  "title": "Leak - trigger when off",
+                  "enum": [
+                    "leak2"
+                  ]
+                }
               ]
             }
           }
