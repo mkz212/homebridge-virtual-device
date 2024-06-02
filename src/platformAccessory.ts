@@ -258,7 +258,7 @@ export class VirtualDeviceAccessory {
       if (this.devConfig.timer > 0) {
         this.deviceTimer = setTimeout(() => {
           this.setValue(offValue);
-        }, this.convertTime(this.devConfig.timer);
+        }, this.convertTime(this.devConfig.timer));
       }
 
       // triger motion when device is on
