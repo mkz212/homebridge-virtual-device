@@ -45,29 +45,29 @@ export class VirtualDeviceAccessory {
     this.devConfig = this.platform.config.devices.find((item) => item.name === accessory.context.device.name) || {};
 
     if (this.devConfig.type === 'switch') {
-      onValue = true;
-      offValue = false;
+      this.onValue = true;
+      this.offValue = false;
     } else if (this.devConfig.type === 'dimmer') {
-      onValue = 100;
-      offValue = 0;
+      this.onValue = 100;
+      this.offValue = 0;
     } else if (this.devConfig.type === 'blind') {
-      onValue = 100;
-      offValue = 0;
+      this.onValue = 100;
+      this.offValue = 0;
     } else if (this.devConfig.type === 'garage') {
-      onValue = 1;
-      offValue = 0;
+      this.onValue = 1;
+      this.offValue = 0;
     } else if (this.devConfig.type === 'lock') {
-      onValue = 0;
-      offValue = 1;
+      this.onValue = 0;
+      this.offValue = 1;
     } else if (this.devConfig.type === 'motion') {
-      onValue = 1;
-      offValue = 0;
+      this.onValue = 1;
+      this.offValue = 0;
     } else if (this.devConfig.type === 'security') {
-      onValue = 0;
-      offValue = 3;
+      this.onValue = 0;
+      this.offValue = 3;
     } else if (this.devConfig.type === 'thermostat') {
-      onValue = 1;
-      offValue = 0;
+      this.onValue = 1;
+      this.offValue = 0;
     }
 
 
@@ -138,53 +138,53 @@ export class VirtualDeviceAccessory {
     // startup values
     if (this.devConfig.startupValue === 'off') {
       if (this.devConfig.type === 'switch') {
-        this.service.updateCharacteristic(this.platform.Characteristic.On, offValue);
+        this.service.updateCharacteristic(this.platform.Characteristic.On, this.offValue);
       } else if (this.devConfig.type === 'dimmer') {
-        this.service.updateCharacteristic(this.platform.Characteristic.On, offValue);
-        this.service.updateCharacteristic(this.platform.Characteristic.Brightness, offValue);
+        this.service.updateCharacteristic(this.platform.Characteristic.On, this.offValue);
+        this.service.updateCharacteristic(this.platform.Characteristic.Brightness, this.offValue);
       } else if (this.devConfig.type === 'blind') {
-        this.service.updateCharacteristic(this.platform.Characteristic.CurrentPosition, offValue);
-        this.service.updateCharacteristic(this.platform.Characteristic.TargetPosition, offValue);
+        this.service.updateCharacteristic(this.platform.Characteristic.CurrentPosition, this.offValue);
+        this.service.updateCharacteristic(this.platform.Characteristic.TargetPosition, this.offValue);
       } else if (this.devConfig.type === 'garage') {
-        this.service.updateCharacteristic(this.platform.Characteristic.CurrentDoorState, offValue);
-        this.service.updateCharacteristic(this.platform.Characteristic.TargetDoorState, offValue);
+        this.service.updateCharacteristic(this.platform.Characteristic.CurrentDoorState, this.offValue);
+        this.service.updateCharacteristic(this.platform.Characteristic.TargetDoorState, this.offValue);
       } else if (this.devConfig.type === 'lock') {
-        this.service.updateCharacteristic(this.platform.Characteristic.LockCurrentState, offValue);
-        this.service.updateCharacteristic(this.platform.Characteristic.LockTargetState, offValue);
+        this.service.updateCharacteristic(this.platform.Characteristic.LockCurrentState, this.offValue);
+        this.service.updateCharacteristic(this.platform.Characteristic.LockTargetState, this.offValue);
       } else if (this.devConfig.type === 'motion') {
-        this.service.updateCharacteristic(this.platform.Characteristic.MotionDetected, offValue);
+        this.service.updateCharacteristic(this.platform.Characteristic.MotionDetected, this.offValue);
       } else if (this.devConfig.type === 'security') {
-        this.service.updateCharacteristic(this.platform.Characteristic.SecuritySystemCurrentState, offValue);
-        this.service.updateCharacteristic(this.platform.Characteristic.SecuritySystemTargetState, offValue);
+        this.service.updateCharacteristic(this.platform.Characteristic.SecuritySystemCurrentState, this.offValue);
+        this.service.updateCharacteristic(this.platform.Characteristic.SecuritySystemTargetState, this.offValue);
       } else if (this.devConfig.type === 'thermostat') {
-        this.service.updateCharacteristic(this.platform.Characteristic.CurrentHeatingCoolingState, offValue);
-        this.service.updateCharacteristic(this.platform.Characteristic.TargetHeatingCoolingState, offValue);
+        this.service.updateCharacteristic(this.platform.Characteristic.CurrentHeatingCoolingState, this.offValue);
+        this.service.updateCharacteristic(this.platform.Characteristic.TargetHeatingCoolingState, this.offValue);
         this.service.updateCharacteristic(this.platform.Characteristic.CurrentTemperature, 10);
         this.service.updateCharacteristic(this.platform.Characteristic.TargetTemperature, 10);
       }
     } else if (this.devConfig.startupValue === 'on') {
         if (this.devConfig.type === 'switch') {
-          this.service.updateCharacteristic(this.platform.Characteristic.On, onValue);
+          this.service.updateCharacteristic(this.platform.Characteristic.On, this.onValue);
         } else if (this.devConfig.type === 'dimmer') {
-          this.service.updateCharacteristic(this.platform.Characteristic.On, onValue);
-          this.service.updateCharacteristic(this.platform.Characteristic.Brightness, onValue);
+          this.service.updateCharacteristic(this.platform.Characteristic.On, this.onValue);
+          this.service.updateCharacteristic(this.platform.Characteristic.Brightness, this.onValue);
         } else if (this.devConfig.type === 'blind') {
-          this.service.updateCharacteristic(this.platform.Characteristic.CurrentPosition, onValue);
-          this.service.updateCharacteristic(this.platform.Characteristic.TargetPosition, onValue);
+          this.service.updateCharacteristic(this.platform.Characteristic.CurrentPosition, this.onValue);
+          this.service.updateCharacteristic(this.platform.Characteristic.TargetPosition, this.onValue);
         } else if (this.devConfig.type === 'garage') {
-          this.service.updateCharacteristic(this.platform.Characteristic.CurrentDoorState, onValue);
-          this.service.updateCharacteristic(this.platform.Characteristic.TargetDoorState, onValue);
+          this.service.updateCharacteristic(this.platform.Characteristic.CurrentDoorState, this.onValue);
+          this.service.updateCharacteristic(this.platform.Characteristic.TargetDoorState, this.onValue);
         } else if (this.devConfig.type === 'lock') {
-          this.service.updateCharacteristic(this.platform.Characteristic.LockCurrentState, onValue);
-          this.service.updateCharacteristic(this.platform.Characteristic.LockTargetState, onValue);
+          this.service.updateCharacteristic(this.platform.Characteristic.LockCurrentState, this.onValue);
+          this.service.updateCharacteristic(this.platform.Characteristic.LockTargetState, this.onValue);
         } else if (this.devConfig.type === 'motion') {
-          this.service.updateCharacteristic(this.platform.Characteristic.MotionDetected, onValue);
+          this.service.updateCharacteristic(this.platform.Characteristic.MotionDetected, this.onValue);
         } else if (this.devConfig.type === 'security') {
-          this.service.updateCharacteristic(this.platform.Characteristic.SecuritySystemCurrentState, onValue);
-          this.service.updateCharacteristic(this.platform.Characteristic.SecuritySystemTargetState, onValue);
+          this.service.updateCharacteristic(this.platform.Characteristic.SecuritySystemCurrentState, this.onValue);
+          this.service.updateCharacteristic(this.platform.Characteristic.SecuritySystemTargetState, this.onValue);
         } else if (this.devConfig.type === 'thermostat') {
-          this.service.updateCharacteristic(this.platform.Characteristic.CurrentHeatingCoolingState, onValue);
-          this.service.updateCharacteristic(this.platform.Characteristic.TargetHeatingCoolingState, onValue);
+          this.service.updateCharacteristic(this.platform.Characteristic.CurrentHeatingCoolingState, this.onValue);
+          this.service.updateCharacteristic(this.platform.Characteristic.TargetHeatingCoolingState, this.onValue);
           this.service.updateCharacteristic(this.platform.Characteristic.CurrentTemperature, 10);
           this.service.updateCharacteristic(this.platform.Characteristic.TargetTemperature, 10);
         }
