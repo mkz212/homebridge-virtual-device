@@ -19,7 +19,7 @@
             },
             "type": {
               "title": "Type",
-              "description": "Select type of the sensor.",
+              "description": "Select type of the device.",
               "type": "string",
               "default": "switch",
               "required": true,
@@ -74,35 +74,152 @@
                 }
               ]
             },
-            "timer": {
-              "title": "Timer",
-              "description": "Leave empty or put 0 to disable timer. Set integer to miliseconds or add one of: -s -m -h -d. '120-s' will set to 120 seconds, '30-m' will set to 30 minutes, '2-h' will set to 2 hours, '1-d' will set to one day, integer value will set to miliseconds ('10000' will set to 10000 miliseconds). The timer is activated every time the device is turned on. Re-sending the command to turn on when the timer is on will extend the time (reset timer).",
-              "type": "integer",
-              "required": false
-            },
-            "sensor": {
-              "title": "Add sensor",
-              "description": "Add sensor to this device. Sensor will triger for 3 sec. when main device will set to on or off (you can choose). Useful for notifications.",
+            "startupValue": {
+              "title": "Startup value",
+              "description": "Select device state after startup / restart.",
               "type": "string",
-              "required": true,
               "default": "off",
+              "required": true,
               "oneOf": [
                 {
-                  "title": "Off",
+                  "title": "Set Off",
                   "enum": [
                     "off"
                   ]
                 },
                 {
-                  "title": "Motion",
+                  "title": "Set On",
                   "enum": [
-                    "motion"
+                    "on"
+                  ]
+                }
+              ]
+            },
+            "timerType": {
+              "title": "Timer type",
+              "description": "Timer type",
+              "type": "string",
+              "default": "disabled",
+              "required": true,
+              "oneOf": [
+                {
+                  "title": "Disabled",
+                  "enum": [
+                    "disabled"
                   ]
                 },
                 {
-                  "title": "Motion - trigger when off",
+                  "title": "When On -> set Off",
                   "enum": [
-                    "motion2"
+                    "whenOn"
+                  ]
+                },
+                {
+                  "title": "When Off -> set On",
+                  "enum": [
+                    "whenOff"
+                  ]
+                }
+              ]
+            },
+            "timerTime": {
+              "title": "Timer time",
+              "description": "Set time for timer.",
+              "type": "integer",
+              "required": false,
+              "condition": {
+                "functionBody": "return model.devices[arrayIndices].timerType !== 'disabled';"
+              }
+            },
+            "timerUnit": {
+              "title": "Timer Unit",
+              "description": "",
+              "type": "string",
+              "default": "seconds",
+              "required": true,
+              "oneOf": [
+                {
+                  "title": "Miliseconds",
+                  "enum": [
+                    "miliseconds"
+                  ]
+                },
+                {
+                  "title": "Seconds",
+                  "enum": [
+                    "seconds"
+                  ]
+                },
+                {
+                  "title": "Minutes",
+                  "enum": [
+                    "minutes"
+                  ]
+                },
+                {
+                  "title": "Hours",
+                  "enum": [
+                    "hours"
+                  ]
+                },
+                {
+                  "title": "Days",
+                  "enum": [
+                    "days"
+                  ]
+                }
+              ],
+              "condition": {
+                "functionBody": "return model.devices[arrayIndices].timerType !== 'disabled';"
+              }
+            },
+            "timerReset": {
+              "title": "Reset timer.",
+              "type": "boolean",
+              "default": true,
+              "description": "Reset timer on each activity.",
+              "condition": {
+                "functionBody": "return model.devices[arrayIndices].timerType !== 'disabled';"
+              }
+            },
+            "sensor": {
+              "title": "Sensor",
+              "description": "Add additional sensor to device.",
+              "type": "string",
+              "default": "disabled",
+              "required": true,
+              "oneOf": [
+                {
+                  "title": "Disabled",
+                  "enum": [
+                    "disabled"
+                  ]
+                },
+                {
+                  "title": "Activate when device set on",
+                  "enum": [
+                    "whenOn"
+                  ]
+                },
+                {
+                  "title": "Activate when device set off",
+                  "enum": [
+                    "whenOff"
+                  ]
+                }
+              ]
+            },
+            "sensorType": {
+              "title": "Sensor type",
+              "description": "Sensor type.",
+              "type": "string",
+              "required": true,
+              "default": "motion",
+              "oneOf": [
+                {
+                  "title": "Motion",
+                  "enum": [
+                    "motion"
                   ]
                 },
                 {
@@ -112,21 +229,9 @@
                   ]
                 },
                 {
-                  "title": "Contact - trigger when off",
-                  "enum": [
-                    "contact2"
-                  ]
-                },
-                {
                   "title": "Occupancy",
                   "enum": [
                     "occupancy"
-                  ]
-                },
-                {
-                  "title": "Occupancy - trigger when off",
-                  "enum": [
-                    "occupancy2"
                   ]
                 },
                 {
@@ -134,14 +239,11 @@
                   "enum": [
                     "leak"
                   ]
-                },
-                {
-                  "title": "Leak - trigger when off",
-                  "enum": [
-                    "leak2"
-                  ]
                 }
-              ]
+              ],
+              "condition": {
+                "functionBody": "return model.devices[arrayIndices].sensor !== 'disabled';"
+              }
             }
           }
         }
@@ -161,9 +263,47 @@
         {
           "type": "fieldset",
           "items": [
-            "devices[].name",
-            "devices[].type",
-            "devices[].sensor"
+            {
+              "type": "fieldset",
+              "title": "General",
+              "expandable": true,
+              "expanded": true,
+              "items": [
+                "devices[].name",
+                "devices[].type"
+              ]
+            },
+            {
+              "type": "fieldset",
+              "title": "After start",
+              "expandable": true,
+              "expanded": false,
+              "items": [
+                "devices[].startupValue"
+              ]
+            },
+            {
+              "type": "fieldset",
+              "title": "Timer",
+              "expandable": true,
+              "expanded": false,
+              "items": [
+                "devices[].timerType",
+                "devices[].timerTime",
+                "devices[].timerUnit",
+                "devices[].timerReset"
+              ]
+            },
+            {
+              "type": "fieldset",
+              "title": "Additional sensor",
+              "expandable": true,
+              "expanded": false,
+              "items": [
+                "devices[].sensor",
+                "devices[].sensorType"
+              ]
+            }
           ]
         }
       ]
