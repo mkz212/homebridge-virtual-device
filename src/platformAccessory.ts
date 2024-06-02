@@ -189,7 +189,7 @@ export class VirtualDeviceAccessory {
         this.service.updateCharacteristic(this.platform.Characteristic.TargetTemperature, 10);
       }
     }
-      
+
 
     /**
      * Creating multiple services of the same type.
