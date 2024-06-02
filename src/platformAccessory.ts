@@ -64,7 +64,7 @@ export class VirtualDeviceAccessory {
     } else if (this.devConfig.type === 'security') {
       onValue = 0;
       offValue = 3;
-    } else if (this.devConfig.type === 'thermostat' && value as number <= 2) {
+    } else if (this.devConfig.type === 'thermostat') {
       onValue = 1;
       offValue = 0;
     }
@@ -258,7 +258,7 @@ export class VirtualDeviceAccessory {
       if (this.devConfig.timer > 0) {
         this.deviceTimer = setTimeout(() => {
           this.setValue(offValue);
-        }, convertTime(this.devConfig.timer));
+        }, this.convertTime(this.devConfig.timer));
       }
 
       // triger motion when device is on
