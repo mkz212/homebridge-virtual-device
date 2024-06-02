@@ -32,7 +32,8 @@ export class VirtualDeviceAccessory {
   deviceTimer;
   sensor;
   sensorTimer;
-
+  offValue;
+  onValue;
 
 
   constructor(
@@ -40,40 +41,35 @@ export class VirtualDeviceAccessory {
     private readonly accessory: PlatformAccessory,
   ) {
 
-    let offValue;
-    let onValue;
-
-    if (this.devConfig.type === 'switch') {
-      onValue = true;
-      offValue = false;
-    } else if (this.devConfig.type === 'dimmer') {
-      onValue = 100;
-      offValue = 0;
-    } else if (this.devConfig.type === 'blind') {
-      onValue = 100;
-      offValue = 0;
-    } else if (this.devConfig.type === 'garage') {
-      onValue = 1;
-      offValue = 0;
-    } else if (this.devConfig.type === 'lock') {
-      onValue = 0;
-      offValue = 1;
-    } else if (this.devConfig.type === 'motion') {
-      onValue = 1;
-      offValue = 0;
-    } else if (this.devConfig.type === 'security') {
-      onValue = 0;
-      offValue = 3;
-    } else if (this.devConfig.type === 'thermostat') {
-      onValue = 1;
-      offValue = 0;
-    }
-
-    this.platform.log.info(onValue);
-    this.platform.log.info(offValue);
-
     // check current config for device
     this.devConfig = this.platform.config.devices.find((item) => item.name === accessory.context.device.name) || {};
+
+    if (this.devConfig.type === 'switch') {
+      this.onValue = true;
+      this.offValue = false;
+    } else if (this.devConfig.type === 'dimmer') {
+      this.onValue = 100;
+      this.offValue = 0;
+    } else if (this.devConfig.type === 'blind') {
+      this.onValue = 100;
+      this.offValue = 0;
+    } else if (this.devConfig.type === 'garage') {
+      this.onValue = 1;
+      this.offValue = 0;
+    } else if (this.devConfig.type === 'lock') {
+      this.onValue = 0;
+      this.offValue = 1;
+    } else if (this.devConfig.type === 'motion') {
+      this.onValue = 1;
+      this.offValue = 0;
+    } else if (this.devConfig.type === 'security') {
+      this.onValue = 0;
+      this.offValue = 3;
+    } else if (this.devConfig.type === 'thermostat') {
+      this.onValue = 1;
+      this.offValue = 0;
+    }
+
 
     // set accessory information
     this.accessory.getService(this.platform.Service.AccessoryInformation)!
@@ -139,32 +135,61 @@ export class VirtualDeviceAccessory {
         .onSet(this.setValue.bind(this));
     }
 
-    // start values
-    if (this.devConfig.type === 'switch') {
-      this.service.updateCharacteristic(this.platform.Characteristic.On, false);
-    } else if (this.devConfig.type === 'dimmer') {
-      this.service.updateCharacteristic(this.platform.Characteristic.On, false);
-      this.service.updateCharacteristic(this.platform.Characteristic.Brightness, 0);
-    } else if (this.devConfig.type === 'blind') {
-      this.service.updateCharacteristic(this.platform.Characteristic.CurrentPosition, 0);
-      this.service.updateCharacteristic(this.platform.Characteristic.TargetPosition, 0);
-    } else if (this.devConfig.type === 'garage') {
-      this.service.updateCharacteristic(this.platform.Characteristic.CurrentDoorState, 0);
-      this.service.updateCharacteristic(this.platform.Characteristic.TargetDoorState, 0);
-    } else if (this.devConfig.type === 'lock') {
-      this.service.updateCharacteristic(this.platform.Characteristic.LockCurrentState, 1);
-      this.service.updateCharacteristic(this.platform.Characteristic.LockTargetState, 1);
-    } else if (this.devConfig.type === 'motion') {
-      this.service.updateCharacteristic(this.platform.Characteristic.MotionDetected, 0);
-    } else if (this.devConfig.type === 'security') {
-      this.service.updateCharacteristic(this.platform.Characteristic.SecuritySystemCurrentState, 3);
-      this.service.updateCharacteristic(this.platform.Characteristic.SecuritySystemTargetState, 3);
-    } else if (this.devConfig.type === 'thermostat') {
-      this.service.updateCharacteristic(this.platform.Characteristic.CurrentHeatingCoolingState, 0);
-      this.service.updateCharacteristic(this.platform.Characteristic.TargetHeatingCoolingState, 0);
-      this.service.updateCharacteristic(this.platform.Characteristic.CurrentTemperature, 10);
-      this.service.updateCharacteristic(this.platform.Characteristic.TargetTemperature, 10);
+    // startup values
+    if (this.devConfig.startupValue === 'off') {
+      if (this.devConfig.type === 'switch') {
+        this.service.updateCharacteristic(this.platform.Characteristic.On, this.offValue);
+      } else if (this.devConfig.type === 'dimmer') {
+        this.service.updateCharacteristic(this.platform.Characteristic.On, this.offValue);
+        this.service.updateCharacteristic(this.platform.Characteristic.Brightness, this.offValue);
+      } else if (this.devConfig.type === 'blind') {
+        this.service.updateCharacteristic(this.platform.Characteristic.CurrentPosition, this.offValue);
+        this.service.updateCharacteristic(this.platform.Characteristic.TargetPosition, this.offValue);
+      } else if (this.devConfig.type === 'garage') {
+        this.service.updateCharacteristic(this.platform.Characteristic.CurrentDoorState, this.offValue);
+        this.service.updateCharacteristic(this.platform.Characteristic.TargetDoorState, this.offValue);
+      } else if (this.devConfig.type === 'lock') {
+        this.service.updateCharacteristic(this.platform.Characteristic.LockCurrentState, this.offValue);
+        this.service.updateCharacteristic(this.platform.Characteristic.LockTargetState, this.offValue);
+      } else if (this.devConfig.type === 'motion') {
+        this.service.updateCharacteristic(this.platform.Characteristic.MotionDetected, this.offValue);
+      } else if (this.devConfig.type === 'security') {
+        this.service.updateCharacteristic(this.platform.Characteristic.SecuritySystemCurrentState, this.offValue);
+        this.service.updateCharacteristic(this.platform.Characteristic.SecuritySystemTargetState, this.offValue);
+      } else if (this.devConfig.type === 'thermostat') {
+        this.service.updateCharacteristic(this.platform.Characteristic.CurrentHeatingCoolingState, this.offValue);
+        this.service.updateCharacteristic(this.platform.Characteristic.TargetHeatingCoolingState, this.offValue);
+        this.service.updateCharacteristic(this.platform.Characteristic.CurrentTemperature, 10);
+        this.service.updateCharacteristic(this.platform.Characteristic.TargetTemperature, 10);
+      }
+    } else if (this.devConfig.startupValue === 'on') {
+      if (this.devConfig.type === 'switch') {
+        this.service.updateCharacteristic(this.platform.Characteristic.On, this.onValue);
+      } else if (this.devConfig.type === 'dimmer') {
+        this.service.updateCharacteristic(this.platform.Characteristic.On, this.onValue);
+        this.service.updateCharacteristic(this.platform.Characteristic.Brightness, this.onValue);
+      } else if (this.devConfig.type === 'blind') {
+        this.service.updateCharacteristic(this.platform.Characteristic.CurrentPosition, this.onValue);
+        this.service.updateCharacteristic(this.platform.Characteristic.TargetPosition, this.onValue);
+      } else if (this.devConfig.type === 'garage') {
+        this.service.updateCharacteristic(this.platform.Characteristic.CurrentDoorState, this.onValue);
+        this.service.updateCharacteristic(this.platform.Characteristic.TargetDoorState, this.onValue);
+      } else if (this.devConfig.type === 'lock') {
+        this.service.updateCharacteristic(this.platform.Characteristic.LockCurrentState, this.onValue);
+        this.service.updateCharacteristic(this.platform.Characteristic.LockTargetState, this.onValue);
+      } else if (this.devConfig.type === 'motion') {
+        this.service.updateCharacteristic(this.platform.Characteristic.MotionDetected, this.onValue);
+      } else if (this.devConfig.type === 'security') {
+        this.service.updateCharacteristic(this.platform.Characteristic.SecuritySystemCurrentState, this.onValue);
+        this.service.updateCharacteristic(this.platform.Characteristic.SecuritySystemTargetState, this.onValue);
+      } else if (this.devConfig.type === 'thermostat') {
+        this.service.updateCharacteristic(this.platform.Characteristic.CurrentHeatingCoolingState, this.onValue);
+        this.service.updateCharacteristic(this.platform.Characteristic.TargetHeatingCoolingState, this.onValue);
+        this.service.updateCharacteristic(this.platform.Characteristic.CurrentTemperature, 10);
+        this.service.updateCharacteristic(this.platform.Characteristic.TargetTemperature, 10);
+      }
     }
+
 
     /**
      * Creating multiple services of the same type.
@@ -178,7 +203,8 @@ export class VirtualDeviceAccessory {
      */
 
     // remove sensor if it is set to off or if need to change type
-    if (this.accessory.getService('sensor')?.subtype !== this.devConfig.sensor) {
+    if (this.devConfig.sensor === 'disabled'
+        || (this.accessory.getService('sensor')?.subtype !== this.devConfig.sensorType)) {
       const removeService = this.accessory.getService('sensor');
       if (removeService) {
         this.accessory.removeService(removeService);
@@ -187,23 +213,22 @@ export class VirtualDeviceAccessory {
     }
 
     // add sensor
-    if (this.devConfig.sensor === 'motion' || this.devConfig.sensor === 'motion2') {
-      // Add motion sensor
-      this.sensor = this.accessory.getService('sensor') ||
-        this.accessory.addService(this.platform.Service.MotionSensor, 'sensor', 'motion');
-    } else if (this.devConfig.sensor === 'contact' || this.devConfig.sensor === 'contact2') {
-      // Add contact sensor
-      this.sensor = this.accessory.getService('sensor') ||
-        this.accessory.addService(this.platform.Service.ContactSensor, 'sensor', 'contact');
-    } else if (this.devConfig.sensor === 'occupancy' || this.devConfig.sensor === 'occupancy2') {
-      // Add occupancy sensor
-      this.sensor = this.accessory.getService('sensor') ||
-        this.accessory.addService(this.platform.Service.OccupancySensor, 'sensor', 'occupancy');
-    } else if (this.devConfig.sensor === 'leak' || this.devConfig.sensor === 'leak2') {
-      // Add leak sensor
-      this.sensor = this.accessory.getService('sensor') ||
-        this.accessory.addService(this.platform.Service.LeakSensor, 'sensor', 'leak');
+    if (this.devConfig.sensor !== 'disabled') {
+      if (this.devConfig.sensorType === 'motion') {
+        this.sensor = this.accessory.getService('sensor') ||
+          this.accessory.addService(this.platform.Service.MotionSensor, 'sensor', 'motion');
+      } else if (this.devConfig.sensorType === 'contact') {
+        this.sensor = this.accessory.getService('sensor') ||
+          this.accessory.addService(this.platform.Service.ContactSensor, 'sensor', 'contact');
+      } else if (this.devConfig.sensorType === 'occupancy') {
+        this.sensor = this.accessory.getService('sensor') ||
+          this.accessory.addService(this.platform.Service.OccupancySensor, 'sensor', 'occupancy');
+      } else if (this.devConfig.sensorType === 'leak') {
+        this.sensor = this.accessory.getService('sensor') ||
+          this.accessory.addService(this.platform.Service.LeakSensor, 'sensor', 'leak');
+      }
     }
+
 
   }
 
@@ -213,8 +238,6 @@ export class VirtualDeviceAccessory {
    * These are sent when the user changes the state of an accessory, for example, changing the Brightness
    */
   async setValue(value: CharacteristicValue) {
-
-    let offValue;
 
     if (this.devConfig.type === 'switch') {
       this.states.On = value as boolean;
@@ -251,30 +274,36 @@ export class VirtualDeviceAccessory {
       this.platform.log.info(`[${this.accessory.context.device.name}]: ${value}`);
     }
 
-
-    clearTimeout(this.deviceTimer);
+    if (this.devConfig.timerReset) {
+      clearTimeout(this.deviceTimer);
+    }
 
     // if value !== offValue -> device is set to on
-    if (value !== offValue) {
+    if (value !== this.offValue) {
 
       // set timer to change device state
-      if (this.devConfig.timer > 0) {
+      if (!this.deviceTimer && this.devConfig.timerType === 'whenOn' && this.devConfig.timerTime > 0) {
         this.deviceTimer = setTimeout(() => {
-          this.setValue(offValue);
-        }, this.convertTime(this.devConfig.timer));
+          this.setValue(this.offValue);
+        }, this.convertTime());
       }
 
       // triger motion when device is on
-      if (this.devConfig.sensor === 'motion' || this.devConfig.sensor === 'contact'
-            || this.devConfig.sensor === 'occupancy' || this.devConfig.sensor === 'leak') {
+      if (this.devConfig.sensor === 'whenOn') {
         this.triggerSensor(true);
       }
 
     } else {
 
+      // set timer to change device state
+      if (!this.deviceTimer && this.devConfig.timerType === 'whenOff' && this.devConfig.timerTime > 0) {
+        this.deviceTimer = setTimeout(() => {
+          this.setValue(this.onValue);
+        }, this.convertTime());
+      }
+
       // triger motion when device is off
-      if (this.devConfig.sensor === 'motion2' || this.devConfig.sensor === 'contact2'
-            || this.devConfig.sensor === 'occupancy2' || this.devConfig.sensor === 'leak2') {
+      if (this.devConfig.sensor === 'whenOff') {
         this.triggerSensor(true);
       }
 
@@ -282,13 +311,13 @@ export class VirtualDeviceAccessory {
   }
 
   async triggerSensor(value) {
-    if (this.devConfig.sensor === 'motion') {
+    if (this.devConfig.sensorType === 'motion') {
       this.sensor.updateCharacteristic(this.platform.Characteristic.MotionDetected, value);
-    } else if (this.devConfig.sensor === 'contact') {
+    } else if (this.devConfig.sensorType === 'contact') {
       this.sensor.updateCharacteristic(this.platform.Characteristic.ContactSensorState, value);
-    } else if (this.devConfig.sensor === 'occupancy') {
+    } else if (this.devConfig.sensorType === 'occupancy') {
       this.sensor.updateCharacteristic(this.platform.Characteristic.OccupancyDetected, value);
-    } else if (this.devConfig.sensor === 'leak') {
+    } else if (this.devConfig.sensorType === 'leak') {
       this.sensor.updateCharacteristic(this.platform.Characteristic.LeakDetected, value);
     }
 
@@ -300,19 +329,19 @@ export class VirtualDeviceAccessory {
     }
   }
 
-  convertTime(time) {
-    time = time.split('-');
-
-    if (time[1] === 's') {
-      return parseInt(time[0]) * 1000;
-    } else if (time[1] === 'm') {
-      return parseInt(time[0]) * 60000;
-    } else if (time[1] === 'h') {
-      return parseInt(time[0]) * 3600000;
-    } else if (time[1] === 'd') {
-      return parseInt(time[0]) * 86400000;
+  convertTime() {
+    if (this.devConfig.timerUnit === 'ms') {
+      return this.devConfig.timerTime;
+    } if (this.devConfig.timerUnit === 's') {
+      return this.devConfig.timerTime * 1000;
+    } else if (this.devConfig.timerUnit === 'm') {
+      return this.devConfig.timerTime * 60000;
+    } else if (this.devConfig.timerUnit === 'h') {
+      return this.devConfig.timerTime * 3600000;
+    } else if (this.devConfig.timerUnit === 'd') {
+      return this.devConfig.timerTime * 86400000;
     } else {
-      return parseInt(time[0]);
+      return this.devConfig.timerTime * 1000;
     }
   }
 
