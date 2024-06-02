@@ -69,6 +69,9 @@ export class VirtualDeviceAccessory {
       offValue = 0;
     }
 
+    this.platform.log.info(onValue);
+    this.platform.log.info(offValue);
+
     // check current config for device
     this.devConfig = this.platform.config.devices.find((item) => item.name === accessory.context.device.name) || {};
 
@@ -299,7 +302,7 @@ export class VirtualDeviceAccessory {
 
   convertTime(time) {
     time = time.split('-');
-    
+
     if (time[1] === 's') {
       return parseInt(time[0]) * 1000;
     } else if (time[1] === 'm') {
