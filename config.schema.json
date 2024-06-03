@@ -19,7 +19,7 @@
             },
             "type": {
               "title": "Type",
-              "description": "Select type of the device.",
+              "description": "Type of the device: switch, dimmer, blind, lock, security, thermostat, etc.",
               "type": "string",
               "default": "switch",
               "required": true,
@@ -133,7 +133,7 @@
             },
             "timerUnit": {
               "title": "Timer Unit",
-              "description": "",
+              "description": "Timer unit: miliseconds, seconds, minutes, hours, days.",
               "type": "string",
               "default": "seconds",
               "required": true,
@@ -174,17 +174,35 @@
               }
             },
             "timerReset": {
-              "title": "Reset timer.",
+              "title": "Reset timer",
               "type": "boolean",
               "default": true,
-              "description": "Reset timer on each activity.",
+              "description": "Reset timer on each activity. When this option is enabled, each activity of the device will reset the timer (e.g. re-enabling the device even though it is already turned on).",
+              "condition": {
+                "functionBody": "return model.devices[arrayIndices].timerType !== 'disabled';"
+              }
+            },
+            "timerDynamic": {
+              "title": "Dynamic timer",
+              "type": "boolean",
+              "default": false,
+              "description": "Dynamic timer. Only for dimmer and blind. When this option is enabled, the timer will change the device value by 1, up to 0 or 100 (depending on the option selected in Timer). Example: if you set 5 minutes in Timer Time and the device is set to 3, then after the timer will be 15 minutes.",
+              "condition": {
+                "functionBody": "return model.devices[arrayIndices].timerType !== 'disabled' && (model.devices[arrayIndices].type === 'dimmer' || model.devices[arrayIndices].type === 'blind');"
+              }
+            },
+            "timerStartup": {
+              "title": "Timer startup",
+              "description": "Set different time for timer on startup.",
+              "type": "integer",
+              "required": false,
               "condition": {
                 "functionBody": "return model.devices[arrayIndices].timerType !== 'disabled';"
               }
             },
             "sensor": {
               "title": "Sensor",
-              "description": "Add additional sensor to device.",
+              "description": "Add additional sensor to device. It will actvate for 3 seconds. This is useful for automations.",
               "type": "string",
               "default": "disabled",
               "required": true,
@@ -291,7 +309,9 @@
                 "devices[].timerType",
                 "devices[].timerTime",
                 "devices[].timerUnit",
-                "devices[].timerReset"
+                "devices[].timerReset",
+                "devices[].timerDynamic",
+                "devices[].timerStartup"
               ]
             },
             {
