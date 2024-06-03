@@ -281,11 +281,19 @@ export class VirtualDeviceAccessory {
     // if value !== offValue -> device is set to on
     if (value !== this.offValue) {
 
+      
+
       // set timer to change device state
       if (!this.deviceTimer && this.devConfig.timerType === 'whenOn' && this.devConfig.timerTime > 0) {
-        this.deviceTimer = setTimeout(() => {
-          this.setValue(this.offValue);
-        }, this.convertTime());
+        if (this.devConfig.timerDynamic && (this.devConfig.type === 'dimmer' || this.devConfig.type === 'blind') && value > 0) {
+          this.deviceTimer = setTimeout(() => {
+            this.setValue(value - 1);
+          }, this.convertTime());
+        } else {
+          this.deviceTimer = setTimeout(() => {
+            this.setValue(this.offValue);
+          }, this.convertTime());
+        }
       }
 
       // triger motion when device is on
@@ -297,9 +305,15 @@ export class VirtualDeviceAccessory {
 
       // set timer to change device state
       if (!this.deviceTimer && this.devConfig.timerType === 'whenOff' && this.devConfig.timerTime > 0) {
-        this.deviceTimer = setTimeout(() => {
-          this.setValue(this.onValue);
-        }, this.convertTime());
+        if (this.devConfig.timerDynamic && (this.devConfig.type === 'dimmer' || this.devConfig.type === 'blind') && value < 100) {
+          this.deviceTimer = setTimeout(() => {
+            this.setValue(value + 1);
+          }, this.convertTime());
+        } else {
+          this.deviceTimer = setTimeout(() => {
+            this.setValue(this.onValue);
+          }, this.convertTime());
+        }
       }
 
       // triger motion when device is off
