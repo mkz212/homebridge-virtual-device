@@ -34,14 +34,16 @@ Example config.json:
         {
           "name": "Device 1",
           "type": "switch",
-          "timer": 10000,
-          "sensor": "motion"
+          "timerType": "whenOn"
+          "timerTime": 60,
+          "sensor": "whenOff",
+          "sensorType": "motion"
         },
         {
           "name": "Device 2",
           "type": "dimmer",
-          "timer": 0,
-          "sensor": "off"
+          "timerType": "disabled",
+          "sensor": "disabled"
         }
       ]
     }
@@ -51,9 +53,16 @@ Example config.json:
 
 - `platform` (string): Tells Homebridge which platform this config belongs to. Leave as is.
 - `name` (string): Name of device, as it will display in HomeKit.
-- `type` (string): Device type, like switch, dimmer, etc.
-- `timer` (integer): Leave empty or put 0 to disable timer. Set integer to miliseconds or add one of: -s -m -h -d. '120-s' will set to 120 seconds, '30-m' will set to 30 minutes, '2-h' will set to 2 hours, '1-d' will set to one day, integer value will set to miliseconds ('10000' will set to 10000 miliseconds). The timer is activated every time the device is turned on. Re-sending the command to turn on when the timer is on will extend the time (reset timer).
-- `sensor` (string): Add sensor to this device. Sensor will triger for 3 sec. when main device will set to on or off (you can choose). Useful for notifications
+- `type` (string): Type of the device: switch, dimmer, blind, lock, security, thermostat, etc.
+- `startupValue` (string): Select device state after startup / restart.
+- `timerType` (string): Timer type: disabled, activated when device is on, activated when device is off.
+- `timerTime` (integer): Set time for timer.
+- `timerUnit` (string): Timer unit: miliseconds, seconds, minutes, hours, days.
+- `timerReset` (boolean): Reset timer on each activity. When this option is enabled, each activity of the device will reset the timer (e.g. re-enabling the device even though it is already turned on).
+- `timerDynamic` (booleand): Only for dimmer and blind. When this option is enabled, the timer will change the device value by 1, up to 0 or 100 (depending on the option selected in Timer). Example: if you set 5 minutes in Timer Time and the device is set to 3, then after the timer will be 15 minutes.
+- `timerStartup` (integer): Set different time for timer on startup.
+- `sensor` (string): Add additional sensor to device. It will actvate for 3 seconds. This is useful for automations.
+- `sensorType` (string): Sensor type: motion, contact, occupancy, leak.
 
 
 ## Troubleshooting
