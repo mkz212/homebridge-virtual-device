@@ -34,6 +34,7 @@ export class VirtualDeviceAccessory {
   sensorTimer;
   offValue;
   onValue;
+  startupTimer = false;
 
 
   constructor(
@@ -135,6 +136,11 @@ export class VirtualDeviceAccessory {
         .onSet(this.setValue.bind(this));
     }
 
+    // override startup timer value if needed
+    if (this.devConfig.timerStartup > 0) {
+      this.startupTimer = true;
+    }
+    
     // startup values
     if (this.devConfig.startupValue === 'off') {
       if (this.devConfig.type === 'switch') {
@@ -189,6 +195,8 @@ export class VirtualDeviceAccessory {
         this.service.updateCharacteristic(this.platform.Characteristic.TargetTemperature, 10);
       }
     }
+
+    this.startupTimer = false;
 
 
     /**
@@ -342,18 +350,25 @@ export class VirtualDeviceAccessory {
   }
 
   convertTime() {
+    
+    let time = this.devConfig.timerTime;
+
+    if (this.devConfig.timerStartup > 0) {
+      time = this.devConfig.timerStartup;
+    }
+    
     if (this.devConfig.timerUnit === 'ms') {
-      return this.devConfig.timerTime;
+      return time;
     } if (this.devConfig.timerUnit === 's') {
-      return this.devConfig.timerTime * 1000;
+      return time * 1000;
     } else if (this.devConfig.timerUnit === 'm') {
-      return this.devConfig.timerTime * 60000;
+      return time * 60000;
     } else if (this.devConfig.timerUnit === 'h') {
-      return this.devConfig.timerTime * 3600000;
+      return time * 3600000;
     } else if (this.devConfig.timerUnit === 'd') {
-      return this.devConfig.timerTime * 86400000;
+      return time * 86400000;
     } else {
-      return this.devConfig.timerTime * 1000;
+      return time * 1000;
     }
   }
 
