@@ -365,15 +365,15 @@ export class VirtualDeviceAccessory {
 
     this.platform.log.info(`[${this.accessory.context.device.name}]: set timer to ${time} ${this.devConfig.timerUnit}`);
 
-    if (this.devConfig.timerUnit === 'ms') {
+    if (this.devConfig.timerUnit === 'miliseconds') {
       return time;
-    } if (this.devConfig.timerUnit === 's') {
+    } if (this.devConfig.timerUnit === 'seconds') {
       return time * 1000;
-    } else if (this.devConfig.timerUnit === 'm') {
+    } else if (this.devConfig.timerUnit === 'minutes') {
       return time * 60000;
-    } else if (this.devConfig.timerUnit === 'h') {
+    } else if (this.devConfig.timerUnit === 'hours') {
       return time * 3600000;
-    } else if (this.devConfig.timerUnit === 'd') {
+    } else if (this.devConfig.timerUnit === 'days') {
       return time * 86400000;
     } else {
       return time * 1000;
