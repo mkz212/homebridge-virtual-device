@@ -140,7 +140,7 @@ export class VirtualDeviceAccessory {
     if (this.devConfig.timerStartup > 0) {
       this.startupTimer = true;
     }
-    
+
     // startup values
     if (this.devConfig.startupValue === 'off') {
       if (this.devConfig.type === 'switch') {
@@ -350,13 +350,13 @@ export class VirtualDeviceAccessory {
   }
 
   convertTime() {
-    
+
     let time = this.devConfig.timerTime;
 
     if (this.devConfig.timerStartup > 0) {
       time = this.devConfig.timerStartup;
     }
-    
+
     if (this.devConfig.timerUnit === 'ms') {
       return time;
     } if (this.devConfig.timerUnit === 's') {
