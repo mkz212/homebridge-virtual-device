@@ -281,8 +281,6 @@ export class VirtualDeviceAccessory {
     // if value !== offValue -> device is set to on
     if (value !== this.offValue) {
 
-      
-
       // set timer to change device state
       if (!this.deviceTimer && this.devConfig.timerType === 'whenOn' && this.devConfig.timerTime > 0) {
         if (this.devConfig.timerDynamic && (this.devConfig.type === 'dimmer' || this.devConfig.type === 'blind') && value as number > 0) {
