@@ -249,6 +249,7 @@ export class VirtualDeviceAccessory {
 
     if (this.devConfig.type === 'switch') {
       this.states.On = value as boolean;
+      this.service.updateCharacteristic(this.platform.Characteristic.On, value);
       this.platform.log.info(`[${this.accessory.context.device.name}]: ${(value) ? 'on' : 'off'}`);
     } else if (this.devConfig.type === 'dimmer') {
       this.states.Brightness = value as number;
@@ -256,34 +257,45 @@ export class VirtualDeviceAccessory {
     } else if (this.devConfig.type === 'blind') {
       this.states.TargetPosition = value as number;
       this.service.updateCharacteristic(this.platform.Characteristic.CurrentPosition, value);
+      this.service.updateCharacteristic(this.platform.Characteristic.TargetPosition, value);
       this.platform.log.info(`[${this.accessory.context.device.name}]: ${value}%`);
     } else if (this.devConfig.type === 'garage') {
       this.states.TargetDoorState = value as number;
       this.service.updateCharacteristic(this.platform.Characteristic.CurrentDoorState, value);
+      this.service.updateCharacteristic(this.platform.Characteristic.TargetDoorState, value);
       this.platform.log.info(`[${this.accessory.context.device.name}]: ${value}`);
     } else if (this.devConfig.type === 'lock') {
       this.states.LockTargetState = value as number;
       this.service.updateCharacteristic(this.platform.Characteristic.LockCurrentState, value);
+      this.service.updateCharacteristic(this.platform.Characteristic.LockTargetState, value);
       this.platform.log.info(`[${this.accessory.context.device.name}]: ${value}`);
     } else if (this.devConfig.type === 'motion') {
       this.states.MotionDetected = value as number;
+      this.service.updateCharacteristic(this.platform.Characteristic.MotionDetected, value);
       this.platform.log.info(`[${this.accessory.context.device.name}]: ${value}`);
     } else if (this.devConfig.type === 'security') {
       this.states.SecuritySystemTargetState = value as number;
       this.service.updateCharacteristic(this.platform.Characteristic.SecuritySystemCurrentState, value);
+      this.service.updateCharacteristic(this.platform.Characteristic.SecuritySystemTargetState, value);
       this.platform.log.info(`[${this.accessory.context.device.name}]: ${value}`);
     } else if (this.devConfig.type === 'thermostat' && value as number <= 2) {
       this.states.TargetHeatingCoolingState = value as number;
       this.service.updateCharacteristic(this.platform.Characteristic.CurrentHeatingCoolingState, value);
+      this.service.updateCharacteristic(this.platform.Characteristic.TargetHeatingCoolingState, value);
       this.platform.log.info(`[${this.accessory.context.device.name}]: ${value}`);
     } else if (this.devConfig.type === 'thermostat' && value as number >= 10) {
       this.states.TargetTemperature = value as number;
       this.service.updateCharacteristic(this.platform.Characteristic.CurrentTemperature, value);
+      this.service.updateCharacteristic(this.platform.Characteristic.TargetTemperature, value);
       this.platform.log.info(`[${this.accessory.context.device.name}]: ${value}`);
     }
 
-    if (this.devConfig.timerReset) {
+    if (this.devConfig.timerReset
+        || (this.devConfig.timerType === 'whenOn' && value === this.offValue)
+        || (this.devConfig.timerType === 'whenOff' && value !== this.offValue)) {
       clearTimeout(this.deviceTimer);
+      this.deviceTimer = null;
+      this.platform.log.debug(`[${this.accessory.context.device.name}]: timer reset`);
     }
 
     // if value !== offValue -> device is set to on
@@ -343,6 +355,7 @@ export class VirtualDeviceAccessory {
 
     if (value) {
       clearTimeout(this.sensorTimer);
+      this.sensorTimer = null;
       this.sensorTimer = setTimeout(() => {
         this.triggerSensor(false);
       }, 3000);
@@ -353,19 +366,21 @@ export class VirtualDeviceAccessory {
 
     let time = this.devConfig.timerTime;
 
-    if (this.devConfig.timerStartup > 0) {
+    if (this.startupTimer && this.devConfig.timerStartup > 0) {
       time = this.devConfig.timerStartup;
     }
 
-    if (this.devConfig.timerUnit === 'ms') {
+    this.platform.log.info(`[${this.accessory.context.device.name}]: set timer to ${time} ${this.devConfig.timerUnit}`);
+
+    if (this.devConfig.timerUnit === 'miliseconds') {
       return time;
-    } if (this.devConfig.timerUnit === 's') {
+    } if (this.devConfig.timerUnit === 'seconds') {
       return time * 1000;
-    } else if (this.devConfig.timerUnit === 'm') {
+    } else if (this.devConfig.timerUnit === 'minutes') {
       return time * 60000;
-    } else if (this.devConfig.timerUnit === 'h') {
+    } else if (this.devConfig.timerUnit === 'hours') {
       return time * 3600000;
-    } else if (this.devConfig.timerUnit === 'd') {
+    } else if (this.devConfig.timerUnit === 'days') {
       return time * 86400000;
     } else {
       return time * 1000;
