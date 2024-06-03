@@ -97,7 +97,7 @@
             },
             "timerType": {
               "title": "Timer type",
-              "description": "Timer type",
+              "description": "Timer type: disabled, activated when device is on, activated when device is off.",
               "type": "string",
               "default": "disabled",
               "required": true,
@@ -186,7 +186,7 @@
               "title": "Dynamic timer",
               "type": "boolean",
               "default": false,
-              "description": "Dynamic timer. Only for dimmer and blind. When this option is enabled, the timer will change the device value by 1, up to 0 or 100 (depending on the option selected in Timer). Example: if you set 5 minutes in Timer Time and the device is set to 3, then after the timer will be 15 minutes.",
+              "description": "Only for dimmer and blind. When this option is enabled, the timer will change the device value by 1, up to 0 or 100 (depending on the option selected in Timer). Example: if you set 5 minutes in Timer Time and the device is set to 3, then after the timer will be 15 minutes.",
               "condition": {
                 "functionBody": "return model.devices[arrayIndices].timerType !== 'disabled' && (model.devices[arrayIndices].type === 'dimmer' || model.devices[arrayIndices].type === 'blind');"
               }
@@ -229,7 +229,7 @@
             },
             "sensorType": {
               "title": "Sensor type",
-              "description": "Sensor type.",
+              "description": "Sensor type: motion, contact, occupancy, leak.",
               "type": "string",
               "required": true,
               "default": "motion",
