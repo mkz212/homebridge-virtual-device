@@ -363,6 +363,8 @@ export class VirtualDeviceAccessory {
       time = this.devConfig.timerStartup;
     }
 
+    this.platform.log.info(`[${this.accessory.context.device.name}]: set timer to ${time} ${this.devConfig.timerUnit}`);
+
     if (this.devConfig.timerUnit === 'ms') {
       return time;
     } if (this.devConfig.timerUnit === 's') {
