@@ -249,6 +249,7 @@ export class VirtualDeviceAccessory {
 
     if (this.devConfig.type === 'switch') {
       this.states.On = value as boolean;
+      this.service.updateCharacteristic(this.platform.Characteristic.On, value);
       this.platform.log.info(`[${this.accessory.context.device.name}]: ${(value) ? 'on' : 'off'}`);
     } else if (this.devConfig.type === 'dimmer') {
       this.states.Brightness = value as number;
@@ -282,8 +283,12 @@ export class VirtualDeviceAccessory {
       this.platform.log.info(`[${this.accessory.context.device.name}]: ${value}`);
     }
 
-    if (this.devConfig.timerReset) {
+    if (this.devConfig.timerReset
+        || (this.devConfig.timerType === 'whenOn' && value === this.offValue)
+        || (this.devConfig.timerType === 'whenOff' && value !== this.offValue)) {
       clearTimeout(this.deviceTimer);
+      this.deviceTimer = null;
+      this.platform.log.debug(`[${this.accessory.context.device.name}]: timer reset`);
     }
 
     // if value !== offValue -> device is set to on
