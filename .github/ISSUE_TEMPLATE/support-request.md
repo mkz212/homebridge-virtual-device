@@ -1,38 +1,27 @@
 ---
-name: Support Request
-about: Need help?
+name: New device
+about: This template is to add device that is currently not supported.
 title: ''
-labels: question
+labels: new device
 assignees: ''
 
 ---
 
-<!-- You must use the issue template below when submitting a support request -->
+**Device:**
+<!-- What is this product? Manufacturer and model. -->
 
-**Describe Your Problem:**
-<!-- A clear and concise description of what problem you are trying to solve. -->
-
-**Logs:**
+**API response for this device:**
 
 ```
-Show the Homebridge logs here, remove any sensitive information.
+Past here response API response for this device. To get API response, open in browser: http://FIBARO-IP/api/devices/DEVICE-ID (replace FIBARO-IP with your Home Center IP and DEVICE-ID with device ID) and login.
 ```
 
-**Plugin Config:**
+**As what should be displayed?:**
 
-```json
-Show your Homebridge config.json here, remove any sensitive information.
-```
-
-**Screenshots:**
-<!-- If applicable, add screenshots to help explain your problem. -->
+<!-- Switch? Dimmer? Blind with positioning? Blind without positioning? Etc. -->
 
 **Environment:**
 
 * **Plugin Version**:
-* **Homebridge Version**: <!-- homebridge -V -->
-* **Node.js Version**: <!-- node -v -->
-* **NPM Version**: <!-- npm -v -->
-* **Operating System**: <!-- Raspbian / Ubuntu / Debian / Windows / macOS / Docker / hb-service -->
+* **Fibaro Home Center model and firmware**:
 
-<!-- Click the "Preview" tab before you submit to ensure the formatting is correct. -->
