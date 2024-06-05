@@ -10,14 +10,14 @@
 
 ## How it works
 - Create virtual device (like switch, dimmer, blind, garage, leak, security, thermostat, etc.).
-- For each device you can add timer to automatically turn off device after this time.
-- For dimmer and blind you can add dynamic timer.
-- For each device you can add sensor (motion, contact, occupancy, leak) to activate for 3 sec when main device is turned on or off (you can choose).
+- For each device you can add timer to automatically turn off or turn on device after setted time.
+- For dimmer and blind you can add dynamic timer - time depends of value setted in HomeKit. 
+- For each device you can add sensor (motion, contact, occupancy, leak) to activate for 3 sec. when main device is turned on or turned off (you can choose).
 - All of that is useful in HomeKit / Apple Home automations.
 
 ## Install plugin
 
-This plugin can be easily installed and configured through Homebridge UI or via [NPM](https://www.npmjs.com/package/homebridge-virtual-device) "globally" by typing:
+This plugin can be easily installed through Homebridge UI or via [NPM](https://www.npmjs.com/package/homebridge-virtual-device) "globally" by typing:
 
     npm install -g homebridge-virtual-device
 
