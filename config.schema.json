@@ -186,7 +186,7 @@
               "title": "Dynamic timer",
               "type": "boolean",
               "default": false,
-              "description": "Only for dimmer and blind. When this option is enabled, the timer will change the device value by 1, up to 0 or 100 (depending on the option selected in Timer). Example: if you set 5 minutes in Timer Time and the device is set to 3, then after the timer will be 15 minutes.",
+              "description": "Only for dimmer and blind. When this option is enabled, time depends of value setted in HomeKit device - timer will change the device value by 1, up to 0 or 100 (depending on the option selected in Timer). Example: if you set 5 minutes in Timer Time and the device is set to 3, then total timer time will be 15 minutes.",
               "condition": {
                 "functionBody": "return model.devices[arrayIndices].timerType !== 'disabled' && (model.devices[arrayIndices].type === 'dimmer' || model.devices[arrayIndices].type === 'blind');"
               }
