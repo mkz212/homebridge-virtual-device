@@ -131,7 +131,7 @@ export class VirtualDeviceAccessory {
     } else if (this.devConfig.type === 'security') {
       this.service.getCharacteristic(this.platform.Characteristic.SecuritySystemTargetState)
         .onSet(this.setValue.bind(this));
-    } else if (this.devConfig.type === 'thermostat'  || this.devConfig.type === 'heatercooler') {
+    } else if (this.devConfig.type === 'thermostat' || this.devConfig.type === 'heatercooler') {
       this.service.getCharacteristic(this.platform.Characteristic.TargetHeatingCoolingState)
         .onSet(this.setValue.bind(this));
       this.service.getCharacteristic(this.platform.Characteristic.TargetTemperature)
