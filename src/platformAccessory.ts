@@ -66,7 +66,7 @@ export class VirtualDeviceAccessory {
     } else if (this.devConfig.type === 'security') {
       this.onValue = 0;
       this.offValue = 3;
-    } else if (this.devConfig.type === 'thermostat') {
+    } else if (this.devConfig.type === 'thermostat' || this.devConfig.type === 'heatercooler') {
       this.onValue = 1;
       this.offValue = 0;
     }
@@ -93,6 +93,8 @@ export class VirtualDeviceAccessory {
       this.service = this.accessory.getService(this.platform.Service.SecuritySystem) || this.accessory.addService(this.platform.Service.SecuritySystem);
     } else if (this.devConfig.type === 'thermostat') {
       this.service = this.accessory.getService(this.platform.Service.Thermostat) || this.accessory.addService(this.platform.Service.Thermostat);
+    } else if (this.devConfig.type === 'heatercooler') {
+      this.service = this.accessory.getService(this.platform.Service.HeaterCooler) || this.accessory.addService(this.platform.Service.HeaterCooler);
     } else {
       this.service = this.accessory.getService(this.platform.Service.Switch) || this.accessory.addService(this.platform.Service.Switch);
     }
@@ -129,7 +131,7 @@ export class VirtualDeviceAccessory {
     } else if (this.devConfig.type === 'security') {
       this.service.getCharacteristic(this.platform.Characteristic.SecuritySystemTargetState)
         .onSet(this.setValue.bind(this));
-    } else if (this.devConfig.type === 'thermostat') {
+    } else if (this.devConfig.type === 'thermostat' || this.devConfig.type === 'heatercooler') {
       this.service.getCharacteristic(this.platform.Characteristic.TargetHeatingCoolingState)
         .onSet(this.setValue.bind(this));
       this.service.getCharacteristic(this.platform.Characteristic.TargetTemperature)
@@ -162,7 +164,7 @@ export class VirtualDeviceAccessory {
       } else if (this.devConfig.type === 'security') {
         this.service.updateCharacteristic(this.platform.Characteristic.SecuritySystemCurrentState, this.offValue);
         this.service.updateCharacteristic(this.platform.Characteristic.SecuritySystemTargetState, this.offValue);
-      } else if (this.devConfig.type === 'thermostat') {
+      } else if (this.devConfig.type === 'thermostat' || this.devConfig.type === 'heatercooler') {
         this.service.updateCharacteristic(this.platform.Characteristic.CurrentHeatingCoolingState, this.offValue);
         this.service.updateCharacteristic(this.platform.Characteristic.TargetHeatingCoolingState, this.offValue);
         this.service.updateCharacteristic(this.platform.Characteristic.CurrentTemperature, 10);
@@ -188,7 +190,7 @@ export class VirtualDeviceAccessory {
       } else if (this.devConfig.type === 'security') {
         this.service.updateCharacteristic(this.platform.Characteristic.SecuritySystemCurrentState, this.onValue);
         this.service.updateCharacteristic(this.platform.Characteristic.SecuritySystemTargetState, this.onValue);
-      } else if (this.devConfig.type === 'thermostat') {
+      } else if (this.devConfig.type === 'thermostat' || this.devConfig.type === 'heatercooler') {
         this.service.updateCharacteristic(this.platform.Characteristic.CurrentHeatingCoolingState, this.onValue);
         this.service.updateCharacteristic(this.platform.Characteristic.TargetHeatingCoolingState, this.onValue);
         this.service.updateCharacteristic(this.platform.Characteristic.CurrentTemperature, 10);
@@ -283,7 +285,7 @@ export class VirtualDeviceAccessory {
       this.service.updateCharacteristic(this.platform.Characteristic.CurrentHeatingCoolingState, value);
       this.service.updateCharacteristic(this.platform.Characteristic.TargetHeatingCoolingState, value);
       this.platform.log.info(`[${this.accessory.context.device.name}]: ${value}`);
-    } else if (this.devConfig.type === 'thermostat' && value as number >= 10) {
+    } else if ((this.devConfig.type === 'thermostat' || this.devConfig.type === 'heatercooler') && value as number >= 10) {
       this.states.TargetTemperature = value as number;
       this.service.updateCharacteristic(this.platform.Characteristic.CurrentTemperature, value);
       this.service.updateCharacteristic(this.platform.Characteristic.TargetTemperature, value);
