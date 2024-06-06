@@ -6,6 +6,13 @@
   "schema": {
     "type": "object",
     "properties": {
+      "name": {
+        "title": "Name",
+        "description": "Plugin name",
+        "type": "string",
+        "required": true,
+        "default": "Homebridge Virtual Device"
+      },
       "devices": {
         "type": "array",
         "items": {
