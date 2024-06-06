@@ -71,6 +71,12 @@
                   "enum": [
                     "thermostat"
                   ]
+                },
+                {
+                  "title": "Heater Cooler",
+                  "enum": [
+                    "heatercooler"
+                  ]
                 }
               ]
             },
