@@ -11,7 +11,7 @@
         "description": "Plugin name",
         "type": "string",
         "required": true,
-        "default": "Homebridge Virtual Device"
+        "default": "Virtual Device"
       },
       "devices": {
         "type": "array",
