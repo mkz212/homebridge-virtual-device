@@ -1,4 +1,4 @@
-<img src="https://github.com/mkz212/homebridge-virtual-device/blob/master/homebridge-virtual-switch.png" width="100px"></img>
+<img src="https://github.com/mkz212/homebridge-virtual-device/blob/master/logo.png" width="100px"></img>
 
 # Homebridge Virtual Device
 
