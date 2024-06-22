@@ -12,7 +12,7 @@
 - Create virtual device (like switch, dimmer, blind, garage, leak, security, thermostat, etc.).
 - For each device you can add timer to automatically turn off or turn on device after setted time.
 - For dimmer and blind you can add dynamic timer - time depends of value setted in HomeKit. 
-- For each device you can add sensor (motion, contact, occupancy, leak) to activate for 3 sec. when main device is turned on or turned off (you can choose).
+- For each device you can add sensor (motion, contact, occupancy, leak) to activate for 3 sec. when main device is turned on or turned off (you can choose) - useful for notifications.
 - All of that is useful in HomeKit / Apple Home automations.
 
 ## Install plugin
